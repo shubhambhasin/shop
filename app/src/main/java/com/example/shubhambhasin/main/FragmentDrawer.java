@@ -90,7 +90,7 @@ public class FragmentDrawer extends Fragment {
                              Bundle savedInstanceState) {
         // Inflating view layout
         View layout = inflater.inflate(R.layout.fragment_navigation_drawer, container, false);
-   /*     ParseUser User=ParseUser.getCurrentUser();
+       ParseUser User=ParseUser.getCurrentUser();
         accountUsername = (TextView) layout.findViewById(R.id.accountUsername);/////layout. ???
         accountEmail = (TextView) layout.findViewById(R.id.accountEmail);
         accountUsername.setText(User.getUsername());
@@ -124,10 +124,6 @@ public class FragmentDrawer extends Fragment {
             }
         });
 
-
-
-
-*/
 
 
         recyclerView = (RecyclerView) layout.findViewById(R.id.drawerList);

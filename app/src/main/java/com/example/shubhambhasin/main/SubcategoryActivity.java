@@ -57,9 +57,9 @@ public class SubcategoryActivity extends BaseActivity{
 
 
 
-            final HashMap<Integer,String> category_name=new HashMap<>();
-            final HashMap<Integer,Bitmap> category_image=new HashMap<>();
-            final HashMap<String,String> category_map=new HashMap<>();
+            final HashMap<Integer,String> subcategory_name=new HashMap<>();
+            final HashMap<Integer,Bitmap> subcategory_image=new HashMap<>();
+            final HashMap<String,String> subcategory_map=new HashMap<>();
             final ParseQuery<ParseObject> subcategoryquery= new ParseQuery(SubCategoryTable.TABLE_NAME);
             subcategoryquery.whereEqualTo(SubCategoryTable.CATEGORY,ParseObject.createWithoutData(CategoryTable.TABLE_NAME,categoryId));
             subcategoryquery.findInBackground(new FindCallback<ParseObject>() {
@@ -72,9 +72,9 @@ public class SubcategoryActivity extends BaseActivity{
                                 ParseObject categoryobject = subcategoryobjects.get(x);
 
                                 String name=categoryobject.getString(CategoryTable.NAME);
-                                category_name.put(x,name);
+                                subcategory_name.put(x,name);
 
-                                category_map.put(name,categoryobject.getObjectId());
+                                subcategory_map.put(name,categoryobject.getObjectId());
                                 ParseFile file = (ParseFile) subcategoryobjects.get(x).get(CategoryTable.IMAGE);
 
                                 final int finalX = x;
@@ -88,20 +88,20 @@ public class SubcategoryActivity extends BaseActivity{
                                 }
 
                                 Bitmap bitmap = BitmapFactory.decodeByteArray(data, 0, data.length);
-                                category_image.put(finalX, bitmap);
+                                subcategory_image.put(finalX, bitmap);
 
 
                             }
 
 
-                            final String[] name=new String[category_name.size()];
+                            final String[] name=new String[subcategory_name.size()];
 
                             for(int y=0;y<name.length;y++){
-                                name[y]=category_name.get(y);
+                                name[y]=subcategory_name.get(y);
 
                             }
 
-                            CustomGrid adapter = new CustomGrid(SubcategoryActivity.this, name, category_image);
+                            CustomGrid adapter = new CustomGrid(SubcategoryActivity.this, name, subcategory_image);
                             subcategories.setAdapter(adapter);
 
 
@@ -109,9 +109,10 @@ public class SubcategoryActivity extends BaseActivity{
                                 @Override
                                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                                     String item=name[position];
-                                    Toast.makeText(getApplicationContext(),category_map.get(item),Toast.LENGTH_LONG).show();
-                                    Intent subcategorySelectedIntent=new Intent(SubcategoryActivity.this,SubcategoryActivity.class);
-                                    subcategorySelectedIntent.putExtra("categoryId",category_map.get(item));
+                                    Toast.makeText(getApplicationContext(),subcategory_map.get(item),Toast.LENGTH_LONG).show();
+                                    Intent subcategorySelectedIntent=new Intent(SubcategoryActivity.this,itemListActivity.class);
+                                    subcategorySelectedIntent.putExtra("subcategoryId",subcategory_map.get(item));
+                                    subcategorySelectedIntent.putExtra("subcategoryName",item);
                                     startActivity(subcategorySelectedIntent);
                                 }
                             });

@@ -16,4 +16,6 @@
     <string name="title_activity_cart">Cart</string>
     <string name="title_activity_subcategory">SubcategoryActivity</string>
     <string name="title_activity_login">login</string>
+    <string name="title_activity_item_details">itemDetails</string>
+    <string name="title_activity_item_list">itemListActivity</string>
 </resources>

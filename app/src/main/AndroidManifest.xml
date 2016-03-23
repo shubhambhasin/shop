@@ -40,6 +40,14 @@
             android:name=".login"
             android:label="@string/title_activity_login" >
         </activity>
+        <activity
+            android:name=".itemDetails"
+            android:label="@string/title_activity_item_details" >
+        </activity>
+        <activity
+            android:name=".itemListActivity"
+            android:label="@string/title_activity_item_list" >
+        </activity>
     </application>
 
 </manifest>

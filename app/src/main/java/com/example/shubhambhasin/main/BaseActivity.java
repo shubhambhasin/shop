@@ -45,7 +45,8 @@ public class BaseActivity extends AppCompatActivity implements FragmentDrawer.Fr
       int densityX;
     int densityY;
     String categoryId;
-
+    String subcategoryId;
+    String itemId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
