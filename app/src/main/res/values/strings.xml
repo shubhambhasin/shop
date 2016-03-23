@@ -14,4 +14,6 @@
     <string name="drawer_open">Open</string>
     <string name="drawer_close">Close</string>
     <string name="title_activity_cart">Cart</string>
+    <string name="title_activity_subcategory">SubcategoryActivity</string>
+    <string name="title_activity_login">login</string>
 </resources>

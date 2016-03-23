@@ -44,6 +44,7 @@ public class BaseActivity extends AppCompatActivity implements FragmentDrawer.Fr
     private static final int RESULT_LOAD_IMAGE = 1;
       int densityX;
     int densityY;
+    String categoryId;
 
 
     @Override

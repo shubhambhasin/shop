@@ -32,6 +32,14 @@
             android:name=".cart"
             android:label="@string/title_activity_cart" >
         </activity>
+        <activity
+            android:name=".SubcategoryActivity"
+            android:label="@string/title_activity_subcategory" >
+        </activity>
+        <activity
+            android:name=".login"
+            android:label="@string/title_activity_login" >
+        </activity>
     </application>
 
 </manifest>
