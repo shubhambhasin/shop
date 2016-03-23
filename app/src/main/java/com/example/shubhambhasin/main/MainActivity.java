@@ -68,16 +68,19 @@ public class MainActivity extends BaseActivity{
                                 ParseFile file = (ParseFile) categoryobjects.get(x).get(CategoryTable.IMAGE);
 
                                 final int finalX = x;
-                                file.getDataInBackground(new GetDataCallback() {
 
-                                    public void done(byte[] data, ParseException e) {
-                                        if (e == null) {
+                            byte[] data = null;
+                                try {
+                                    data=file.getData();
+                                } catch (ParseException e1) {
+                                    e1.printStackTrace();
+                                }
 
-                                            Bitmap bitmap = BitmapFactory.decodeByteArray(data, 0, data.length);
+                                Bitmap bitmap = BitmapFactory.decodeByteArray(data, 0, data.length);
                                             category_image.put(finalX, bitmap);
-                                        }
-                                    }
-                                });
+
+
+
                             }
 
 
@@ -85,7 +88,7 @@ public class MainActivity extends BaseActivity{
 
                             for(int y=0;y<name.length;y++){
                                 name[y]=category_name.get(y);
-
+                             
                             }
 
                             CustomGrid adapter = new CustomGrid(MainActivity.this, name, category_image);
@@ -111,4 +114,12 @@ public class MainActivity extends BaseActivity{
         }
     }
 
+public void sleep()
+{
+    for(int x=0;x<200;x++){}
 }
+
+}
+
+
+

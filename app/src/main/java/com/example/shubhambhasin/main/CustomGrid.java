@@ -54,14 +54,16 @@ public class CustomGrid extends BaseAdapter{
         if (convertView == null) {
 
             grid = new View(mContext);
-            grid = inflater.inflate(R.layout.single_grid_item, null);
-            TextView textView = (TextView) grid.findViewById(R.id.grid_text);
-            ImageView imageView = (ImageView)grid.findViewById(R.id.grid_image);
-            textView.setText(names[position]);
-            imageView.setImageBitmap(Images.get(position));
+
         } else {
             grid = (View) convertView;
         }
+
+        grid = inflater.inflate(R.layout.single_grid_item, null);
+        TextView textView = (TextView) grid.findViewById(R.id.grid_text);
+        ImageView imageView = (ImageView)grid.findViewById(R.id.grid_image);
+        textView.setText(names[position]);
+        imageView.setImageBitmap(Images.get(position));
 
         return grid;
     }
