@@ -218,9 +218,8 @@ public class BaseActivity extends AppCompatActivity implements FragmentDrawer.Fr
             }
 
             if (position == 1) { //tasks
-               // Intent task_intent = new Intent(BaseActivity.this, Tasks.class);
-
-              //  startActivity(task_intent);
+              Intent task_intent = new Intent(BaseActivity.this, cart.class);
+                startActivity(task_intent);
             }
 
 
