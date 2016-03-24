@@ -103,7 +103,7 @@ public class cart extends BaseActivity{
                                 price_map.put(x,itemprice);
                                     quantity_map.put(x,itemquantity);
                                     cart_name.put(x, itemincartdetails);
-                                cart_map.put(itemname, cartobject.getObjectId());
+                                cart_map.put(itemincartdetails, cartobject.getObjectId());
                                 ParseFile file = itemordered.getParseFile(ItemTable.IMAGE);
 
                                 final int finalX = x;
@@ -173,12 +173,12 @@ public class cart extends BaseActivity{
                                     ParseObject selecteditemobject= null;
                                     try {
                                         selecteditemobject = selectedcartitemobject.fetchIfNeeded().getParseObject(CartTable.ITEM);
+                                    Log.d("item",selecteditemobject.getObjectId());
 
-
-                                    selecteditemprice.setText(String.valueOf(selecteditemobject.getNumber(ItemTable.PRICE)));
-                                    selecteditemdetail.setText(selecteditemobject.getString(ItemTable.DETAILS));
-                                    selecteditembrand.setText(selecteditemobject.getString(ItemTable.BRAND));
-                                    ParseFile file = selecteditemobject.getParseFile(ItemTable.IMAGE);
+                                    selecteditemprice.setText(String.valueOf(selecteditemobject.fetchIfNeeded().getNumber(ItemTable.PRICE)));
+                                    selecteditemdetail.setText(selecteditemobject.fetchIfNeeded().getString(ItemTable.DETAILS));
+                                    selecteditembrand.setText(selecteditemobject.fetchIfNeeded().getString(ItemTable.BRAND));
+                                    ParseFile file = selecteditemobject.fetchIfNeeded().getParseFile(ItemTable.IMAGE);
                                     byte[] data = null;
 
                                     try {
