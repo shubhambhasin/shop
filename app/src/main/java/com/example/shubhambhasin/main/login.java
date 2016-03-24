@@ -148,8 +148,8 @@ public class login extends AppCompatActivity {
 
     public void onClickNoUser()
     {
-       // Intent intent = new Intent(login.this , SignUp.class);
-        ///startActivity(intent);
+        Intent intent = new Intent(login.this , SignUp.class);
+        startActivity(intent);
     }
 
 

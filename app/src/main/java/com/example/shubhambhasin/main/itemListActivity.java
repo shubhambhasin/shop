@@ -113,7 +113,7 @@ String subcategoryName;
                                 @Override
                                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                                     String item=name[position];
-                                    Toast.makeText(getApplicationContext(),item_map.get(item),Toast.LENGTH_LONG).show();
+                                  //  Toast.makeText(getApplicationContext(),item_map.get(item),Toast.LENGTH_LONG).show();
                                     Intent categorySelectedIntent=new Intent(itemListActivity.this,itemDetails.class);
                                     categorySelectedIntent.putExtra("itemId",item_map.get(item));
                                     startActivity(categorySelectedIntent);

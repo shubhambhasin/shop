@@ -214,15 +214,19 @@ public class BaseActivity extends AppCompatActivity implements FragmentDrawer.Fr
 
     private void displayView(int position) {
 
-        if (position == 0) { //dashboard
+        if (position == 0) {//home
                 Intent i = new Intent(getApplicationContext(), MainActivity.class);
                 startActivity(i);
-            }
-
-            if (position == 1) { //tasks
+            }else
+            if (position == 1) { //cart
               Intent task_intent = new Intent(BaseActivity.this, cart.class);
                 startActivity(task_intent);
-            }
+            }else
+        if (position == 2) { //logout
+            ParseUser.logOut();
+            Intent task_intent = new Intent(BaseActivity.this, login.class);
+            startActivity(task_intent);
+        }
 
 
     }

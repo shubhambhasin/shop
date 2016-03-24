@@ -79,8 +79,8 @@ public class FragmentDrawer extends Fragment {
 
         icons= new int[]{
                 R.drawable.home,
-                R.drawable.cart
-
+                R.drawable.cart,
+                R.drawable.logout
         };
 
     }
@@ -159,8 +159,8 @@ public class FragmentDrawer extends Fragment {
             titles = getActivity().getResources().getStringArray(R.array.nav_drawer_labels);
             icons= new int[]{
                     R.drawable.home,
-                    R.drawable.cart
-
+                    R.drawable.cart,
+                    R.drawable.logout
             };
 
 

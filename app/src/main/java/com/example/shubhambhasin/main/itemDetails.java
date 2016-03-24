@@ -14,13 +14,17 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.parse.FindCallback;
 import com.parse.GetDataCallback;
 import com.parse.ParseException;
 import com.parse.ParseFile;
 import com.parse.ParseObject;
+import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
 import org.w3c.dom.Text;
+
+import java.util.List;
 
 
 public class itemDetails extends BaseActivity{
@@ -87,12 +91,32 @@ public class itemDetails extends BaseActivity{
             tocart.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    ParseObject itemtocart=new ParseObject(CartTable.TABLE_NAME);
-                    itemtocart.put(CartTable.ITEM,itemobject);
-                    itemtocart.put(CartTable.USER, ParseUser.getCurrentUser());
-                    itemtocart.put(CartTable.QUANTITY,1);
-                    itemtocart.saveEventually();
-                    Toast.makeText(getApplicationContext(),"Item added to cart",Toast.LENGTH_LONG).show();
+
+
+                    ParseQuery<ParseObject> alreadyincart=ParseQuery.getQuery(CartTable.TABLE_NAME);
+                    alreadyincart.whereEqualTo(CartTable.USER, ParseUser.getCurrentUser());
+                    alreadyincart.whereEqualTo(CartTable.ITEM, itemobject);
+                    alreadyincart.findInBackground(new FindCallback<ParseObject>() {
+                        @Override
+                        public void done(List<ParseObject> cartobjects, ParseException e) {
+                            if (e == null) {
+                                if (cartobjects.size() != 0) {
+                                    Toast.makeText(getApplicationContext(), "Item already in cart", Toast.LENGTH_LONG).show();
+                                } else {
+                                    ParseObject itemtocart = new ParseObject(CartTable.TABLE_NAME);
+                                    itemtocart.put(CartTable.ITEM, itemobject);
+                                    itemtocart.put(CartTable.USER, ParseUser.getCurrentUser());
+                                    itemtocart.put(CartTable.QUANTITY, 1);
+                                    itemtocart.saveEventually();
+                                    Toast.makeText(getApplicationContext(), "Item added to cart", Toast.LENGTH_LONG).show();
+                                }
+                            } else {
+                                    Log.d("cart","Exceptional error " + e);
+                            }
+                        }
+                    });
+
+
                 }
             });
 

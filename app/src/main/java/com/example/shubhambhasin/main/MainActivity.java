@@ -104,7 +104,7 @@ public class MainActivity extends BaseActivity{
                                 @Override
                                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                                     String item=name[position];
-                                   Toast.makeText(getApplicationContext(),category_map.get(item),Toast.LENGTH_LONG).show();
+                                  // Toast.makeText(getApplicationContext(),category_map.get(item),Toast.LENGTH_LONG).show();
                                     Intent categorySelectedIntent=new Intent(MainActivity.this,SubcategoryActivity.class);
                                     categorySelectedIntent.putExtra("categoryId",category_map.get(item));
                                     startActivity(categorySelectedIntent);

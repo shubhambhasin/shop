@@ -36,7 +36,14 @@
             android:stretchMode="columnWidth"
             android:gravity="center"
             android:smoothScrollbar="true"/>
-<RelativeLayout
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/nocart"
+            android:layout_gravity="center_horizontal" />
+
+        <RelativeLayout
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
         <TextView
@@ -44,7 +51,7 @@
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:text="Total :"
-            android:id="@+id/textView"
+            android:id="@+id/totaltext"
             android:layout_gravity="center_horizontal"
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true" />

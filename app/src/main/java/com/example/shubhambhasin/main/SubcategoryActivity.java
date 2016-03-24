@@ -109,7 +109,7 @@ public class SubcategoryActivity extends BaseActivity{
                                 @Override
                                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                                     String item=name[position];
-                                    Toast.makeText(getApplicationContext(),subcategory_map.get(item),Toast.LENGTH_LONG).show();
+                                    //Toast.makeText(getApplicationContext(),subcategory_map.get(item),Toast.LENGTH_LONG).show();
                                     Intent subcategorySelectedIntent=new Intent(SubcategoryActivity.this,itemListActivity.class);
                                     subcategorySelectedIntent.putExtra("subcategoryId",subcategory_map.get(item));
                                     subcategorySelectedIntent.putExtra("subcategoryName",item);

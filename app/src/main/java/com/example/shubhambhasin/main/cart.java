@@ -40,7 +40,7 @@ public class cart extends BaseActivity{
     ListView cartList;
     Button placeOrder;
     TextView totalcost;
-
+ImageView nocart;
     TextView selecteditemprice;
     Spinner quantitySpinner;
     ImageView selecteditemimage;
@@ -48,6 +48,7 @@ public class cart extends BaseActivity{
     TextView selecteditembrand;
     Button removefromcart;
     Button done;
+    TextView totaltext;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -66,7 +67,8 @@ public class cart extends BaseActivity{
             cartList=(ListView)findViewById(R.id.cartList);
             placeOrder=(Button)findViewById(R.id.placeorderbutton);
             totalcost=(TextView)findViewById(R.id.total);
-
+totaltext=(TextView)findViewById(R.id.totaltext);
+            nocart=(ImageView)findViewById(R.id.nocart);
             final HashMap<Integer,Bitmap> cart_image=new HashMap<>();
             final HashMap<Integer,String> cart_name=new HashMap<>();
             final HashMap<String,String> cart_map=new HashMap<>();
@@ -79,7 +81,7 @@ public class cart extends BaseActivity{
                 public void done(List<ParseObject> cartobjects, ParseException e) {
                     if (e == null) {
                         if (cartobjects.size() != 0) {
-
+                            nocart.setVisibility(View.INVISIBLE);
                             for (int x = 0; x < cartobjects.size(); x++) {
 
                                 ParseObject cartobject = cartobjects.get(x);
@@ -149,7 +151,7 @@ public class cart extends BaseActivity{
                                 @Override
                                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                                    String item=name[position];
-                                    Toast.makeText(getApplicationContext(),cart_map.get(item),Toast.LENGTH_LONG).show();
+                                   // Toast.makeText(getApplicationContext(),cart_map.get(item),Toast.LENGTH_LONG).show();
                                     final Dialog itemincartselected=new Dialog(cart.this);
                                     itemincartselected.setContentView(R.layout.item_details);
                                     setDialogSize(itemincartselected);
@@ -197,9 +199,16 @@ public class cart extends BaseActivity{
                                         e1.printStackTrace();
                                     }
                                     itemincartselected.show();
+                                    final Integer prevquant=selectedcartitemobject.getInt(CartTable.QUANTITY);
                                     done.setOnClickListener(new View.OnClickListener() {
                                         @Override
                                         public void onClick(View v) {
+                                            if(prevquant!=quantitySpinner.getSelectedItem())
+                                            {
+                                               selectedcartitemobject.put(CartTable.QUANTITY,Integer.parseInt(quantitySpinner.getSelectedItem().toString()));
+                                                      selectedcartitemobject.saveEventually();
+                                                Reload();
+                                            }
                                             itemincartselected.dismiss();
                                         }
                                     });
@@ -208,6 +217,8 @@ public class cart extends BaseActivity{
                                         @Override
                                         public void onClick(View v) {
                                             selectedcartitemobject.deleteEventually();
+                                            Reload();
+                                            sleep(1000);
                                             itemincartselected.dismiss();
                                         }
                                     });
@@ -218,6 +229,11 @@ public class cart extends BaseActivity{
 
                         } else {
                             Toast.makeText(getApplicationContext(), "No item added to cart", Toast.LENGTH_LONG).show();
+                            totalcost.setVisibility(View.INVISIBLE);
+                            placeOrder.setVisibility(View.INVISIBLE);
+                            totaltext.setVisibility(View.INVISIBLE);
+                            nocart.setVisibility(View.VISIBLE);
+                            nocart.setImageResource(R.drawable.emptycart);
                         }
                     } else {
                         Log.d("cart", "exceptional error " + e);
@@ -232,10 +248,32 @@ public class cart extends BaseActivity{
         }
     }
 
+    protected void Reload(){
+        Intent reload=new Intent(cart.this,cart.class);
+        startActivity(reload);
+    }
+
+    @Override
+    protected void onPostResume() {
+        super.onPostResume();
+        if(ParseUser.getCurrentUser()==null){
+            Intent tologin=new Intent(cart.this,login.class);
+            startActivity(tologin);
+        }
+
+   }
 
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Intent reload=new Intent(cart.this,MainActivity.class);
+        startActivity(reload);
+    }
 
+    protected void sleep(int x)  {
+        for(int y=0;y<x;y++){
 
-
-
+        }
+    }
 }

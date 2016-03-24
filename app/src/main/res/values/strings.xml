@@ -9,6 +9,7 @@
     <array name="nav_drawer_labels">
         <item>Home</item>
         <item>Cart</item>
+        <item>Logout</item>
     </array>
 
     <string name="drawer_open">Open</string>
@@ -18,4 +19,5 @@
     <string name="title_activity_login">login</string>
     <string name="title_activity_item_details">itemDetails</string>
     <string name="title_activity_item_list">itemListActivity</string>
+    <string name="title_activity_sign_up">SignUp</string>
 </resources>
