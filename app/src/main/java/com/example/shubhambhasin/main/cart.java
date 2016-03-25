@@ -118,7 +118,8 @@ totaltext=(TextView)findViewById(R.id.totaltext);
                                     e1.printStackTrace();
                                 }
 
-                                Bitmap bitmap = BitmapFactory.decodeByteArray(data, 0, data.length);
+                                    ImageResizer ir=new ImageResizer();
+                                    Bitmap bitmap = ir.resizeImage(data, 100, 100);
                                 cart_image.put(finalX, bitmap);
                                 } catch (ParseException e1) {
                                     e1.printStackTrace();
@@ -164,13 +165,6 @@ totaltext=(TextView)findViewById(R.id.totaltext);
                                     selecteditemdetail=(TextView)itemincartselected.findViewById(R.id.details);
                                     quantitySpinner=(Spinner)itemincartselected.findViewById(R.id.quantitySpinner);
 
-                                    String[] quant=new String[12];
-                                    for (int i = 0; i < 12; i++) {
-                                        quant[i] = String.valueOf(i+1);
-                                    }
-                                    ArrayAdapter<String> adapter_end = new ArrayAdapter<String>(cart.this,android.R.layout.simple_spinner_item,quant);
-                                    quantitySpinner.setAdapter(adapter_end);
-
                                     final ParseObject selectedcartitemobject=ParseObject.createWithoutData(CartTable.TABLE_NAME, cart_map.get(item));
                                     ParseObject selecteditemobject= null;
                                     try {
@@ -181,7 +175,17 @@ totaltext=(TextView)findViewById(R.id.totaltext);
                                     selecteditemdetail.setText(selecteditemobject.fetchIfNeeded().getString(ItemTable.DETAILS));
                                     selecteditembrand.setText(selecteditemobject.fetchIfNeeded().getString(ItemTable.BRAND));
                                     ParseFile file = selecteditemobject.fetchIfNeeded().getParseFile(ItemTable.IMAGE);
-                                    byte[] data = null;
+
+
+                                        int avlquant=selecteditemobject.getInt(ItemTable.QUANTITY_AVAILABLE);
+                                        String[] quant=new String[avlquant+1];
+                                        for (int i = 0; i <= avlquant; i++) {
+                                            quant[i] = String.valueOf(i+1);
+                                        }
+                                        ArrayAdapter<String> adapter_end = new ArrayAdapter<String>(cart.this,android.R.layout.simple_spinner_item,quant);
+                                        quantitySpinner.setAdapter(adapter_end);
+
+                                        byte[] data = null;
 
                                     try {
                                         data = file.getData();

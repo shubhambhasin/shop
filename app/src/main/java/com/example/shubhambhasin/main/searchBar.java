@@ -1,6 +1,7 @@
 package com.example.shubhambhasin.main;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -34,6 +35,9 @@ public class searchBar extends Fragment {
                     Toast.makeText(getActivity(),"Nothing to be searched for",Toast.LENGTH_LONG).show();
                 }else {
                     Toast.makeText(getActivity(),searched, Toast.LENGTH_LONG).show();
+                    Intent tosearchresults=new Intent(getActivity(),SearchResult.class);
+                    tosearchresults.putExtra("searchedstring",searched);
+                    startActivity(tosearchresults);
                 }
             }
         });

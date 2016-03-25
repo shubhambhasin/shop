@@ -88,42 +88,58 @@ public class itemDetails extends BaseActivity{
 
             });
 
-            tocart.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
+            if(itemobject.getInt(ItemTable.QUANTITY_AVAILABLE)>0) {
+                tocart.setText("Add to Cart");
+                tocart.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
 
 
-                    ParseQuery<ParseObject> alreadyincart=ParseQuery.getQuery(CartTable.TABLE_NAME);
-                    alreadyincart.whereEqualTo(CartTable.USER, ParseUser.getCurrentUser());
-                    alreadyincart.whereEqualTo(CartTable.ITEM, itemobject);
-                    alreadyincart.findInBackground(new FindCallback<ParseObject>() {
-                        @Override
-                        public void done(List<ParseObject> cartobjects, ParseException e) {
-                            if (e == null) {
-                                if (cartobjects.size() != 0) {
-                                    Toast.makeText(getApplicationContext(), "Item already in cart", Toast.LENGTH_LONG).show();
+                        ParseQuery<ParseObject> alreadyincart = ParseQuery.getQuery(CartTable.TABLE_NAME);
+                        alreadyincart.whereEqualTo(CartTable.USER, ParseUser.getCurrentUser());
+                        alreadyincart.whereEqualTo(CartTable.ITEM, itemobject);
+                        alreadyincart.findInBackground(new FindCallback<ParseObject>() {
+                            @Override
+                            public void done(List<ParseObject> cartobjects, ParseException e) {
+                                if (e == null) {
+                                    if (cartobjects.size() != 0) {
+                                        Toast.makeText(getApplicationContext(), "Item already in cart", Toast.LENGTH_LONG).show();
+                                    } else {
+
+                                        ParseObject itemtocart = new ParseObject(CartTable.TABLE_NAME);
+                                        itemtocart.put(CartTable.ITEM, itemobject);
+                                        itemtocart.put(CartTable.USER, ParseUser.getCurrentUser());
+                                        itemtocart.put(CartTable.QUANTITY, 1);
+                                        itemtocart.saveEventually();
+                                        Toast.makeText(getApplicationContext(), "Item added to cart", Toast.LENGTH_LONG).show();
+                                    }
                                 } else {
-                                    ParseObject itemtocart = new ParseObject(CartTable.TABLE_NAME);
-                                    itemtocart.put(CartTable.ITEM, itemobject);
-                                    itemtocart.put(CartTable.USER, ParseUser.getCurrentUser());
-                                    itemtocart.put(CartTable.QUANTITY, 1);
-                                    itemtocart.saveEventually();
-                                    Toast.makeText(getApplicationContext(), "Item added to cart", Toast.LENGTH_LONG).show();
+                                    Log.d("cart", "Exceptional error " + e);
                                 }
-                            } else {
-                                    Log.d("cart","Exceptional error " + e);
                             }
-                        }
-                    });
+                        });
 
 
-                }
-            });
+                    }
+                });
+            }else {
+                tocart.setText("Not Currently Avaialable at Store");
+            }
 
         }catch(Exception create_error){
             Log.d("user", "error in item details activity: " + create_error.getMessage());
             Toast.makeText(itemDetails.this, "error " + create_error, Toast.LENGTH_LONG).show();
         }
+    }
+
+    @Override
+    protected void onPostResume() {
+        super.onPostResume();
+        if(ParseUser.getCurrentUser()==null){
+            Intent tologin=new Intent(itemDetails.this,login.class);
+            startActivity(tologin);
+        }
+
     }
 
 

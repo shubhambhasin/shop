@@ -95,19 +95,6 @@ public class login extends AppCompatActivity {
 
     }
 
-    @Override
-    protected void onPostResume() {
-        super.onPostResume();
-      /*  if(ParseUser.getCurrentUser()!=null)
-        {
-            Intent nouser=new Intent(login.this,Role.class);
-            startActivity(nouser);
-        } */
-
-
-    }
-
-
 
     public void onClickLogin() {
 
@@ -123,17 +110,17 @@ public class login extends AppCompatActivity {
                         if (user != null) {
                             // If user exist and authenticated, send user to Welcome.class
 
-                            Toast.makeText(getApplicationContext(), "Successfully Logged in",Toast.LENGTH_LONG).show();
+                            Toast.makeText(getApplicationContext(), "Successfully Logged in", Toast.LENGTH_LONG).show();
 
-                            Intent nouser=new Intent(login.this,MainActivity.class);
+                            Intent nouser = new Intent(login.this, MainActivity.class);
                             startActivity(nouser);
 
-                            new LoadingSyncList(context,layoutLoading,null).execute();
+                            new LoadingSyncList(context, layoutLoading, null).execute();
 
                         } else {
 
                             layoutLoading.setVisibility(View.GONE);
-                            Toast.makeText(getApplicationContext(),"this" +  e.getMessage() ,  Toast.LENGTH_LONG).show();
+                            Toast.makeText(getApplicationContext(), "this" + e.getMessage(), Toast.LENGTH_LONG).show();
                         }
                     }
                 });
@@ -198,5 +185,15 @@ public class login extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void onPostResume() {
+        super.onPostResume();
+        if(ParseUser.getCurrentUser()!=null){
+            Intent tologin=new Intent(login.this,MainActivity.class);
+            startActivity(tologin);
+        }
+
     }
 }

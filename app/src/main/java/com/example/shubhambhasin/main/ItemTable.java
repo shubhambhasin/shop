@@ -12,4 +12,5 @@ public class ItemTable {
     public static final  String DETAILS="detail";
     public static final String PRICE="price";
     public static final String BRAND="brand";
+    public static final String QUANTITY_AVAILABLE="quantity_available";
 }

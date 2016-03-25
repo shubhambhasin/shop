@@ -84,8 +84,9 @@ public class MainActivity extends BaseActivity{
                                 } catch (ParseException e1) {
                                     e1.printStackTrace();
                                 }
-
-                                Bitmap bitmap = BitmapFactory.decodeByteArray(data, 0, data.length);
+                                ImageResizer ir=new ImageResizer();
+                                Bitmap bitmap = ir.resizeImage(data,200,180);
+                                //Bitmap bitmap = BitmapFactory.decodeByteArray(data, 0, data.length);
                                             category_image.put(finalX, bitmap);
 
 
@@ -136,6 +137,15 @@ public class MainActivity extends BaseActivity{
     }
 
 
+    @Override
+    protected void onPostResume() {
+        super.onPostResume();
+        if(ParseUser.getCurrentUser()==null){
+            Intent tologin=new Intent(MainActivity.this,login.class);
+            startActivity(tologin);
+        }
+
+    }
 }
 
 

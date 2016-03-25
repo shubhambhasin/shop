@@ -91,7 +91,8 @@ public class SubcategoryActivity extends BaseActivity{
                                     e1.printStackTrace();
                                 }
 
-                                Bitmap bitmap = BitmapFactory.decodeByteArray(data, 0, data.length);
+                                ImageResizer ir=new ImageResizer();
+                                Bitmap bitmap = ir.resizeImage(data, 200, 180);
                                 subcategory_image.put(finalX, bitmap);
 
 
@@ -139,6 +140,16 @@ public class SubcategoryActivity extends BaseActivity{
         }
     }
 
+
+    @Override
+    protected void onPostResume() {
+        super.onPostResume();
+        if(ParseUser.getCurrentUser()==null){
+            Intent tologin=new Intent(SubcategoryActivity.this,login.class);
+            startActivity(tologin);
+        }
+
+    }
 
 }
 

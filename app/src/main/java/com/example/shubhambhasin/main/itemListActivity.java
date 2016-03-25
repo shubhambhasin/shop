@@ -95,7 +95,8 @@ String subcategoryName;
                                     e1.printStackTrace();
                                 }
 
-                                Bitmap bitmap = BitmapFactory.decodeByteArray(data, 0, data.length);
+                                ImageResizer ir=new ImageResizer();
+                                Bitmap bitmap = ir.resizeImage(data, 200, 180);
                                 item_image.put(finalX, bitmap);
 
 
@@ -145,6 +146,16 @@ String subcategoryName;
         }
     }
 
+
+    @Override
+    protected void onPostResume() {
+        super.onPostResume();
+        if(ParseUser.getCurrentUser()==null){
+            Intent tologin=new Intent(itemListActivity.this,login.class);
+            startActivity(tologin);
+        }
+
+    }
 
 }
 

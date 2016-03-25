@@ -193,13 +193,20 @@ public class SignUp extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    @Override
-    protected void onPostResume() {
-        super.onPostResume();
-    }
 
        @Override
     protected void onDestroy() {
         super.onDestroy();
+    }
+
+
+    @Override
+    protected void onPostResume() {
+        super.onPostResume();
+        if(ParseUser.getCurrentUser()!=null){
+            Intent tologin=new Intent(SignUp.this,MainActivity.class);
+            startActivity(tologin);
+        }
+
     }
 }
