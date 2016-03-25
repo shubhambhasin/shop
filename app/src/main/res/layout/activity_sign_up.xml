@@ -143,7 +143,7 @@
             android:layout_below="@+id/confirmPasswordText"
             android:layout_alignRight="@+id/passwordSignup"
             android:layout_alignEnd="@+id/passwordSignup"
-            android:background="#20BF9F"
+            android:background="#323b43"
             android:textColor="#ffffff" />
 
     </RelativeLayout>

@@ -33,6 +33,13 @@
             android:layout_gravity="center_horizontal"
             tools:layout="@layout/fragment_search_bar" />
 
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/noresult"
+            android:layout_gravity="center_horizontal"
+            android:background="@drawable/nosearch" />
         <ListView xmlns:android="http://schemas.android.com/apk/res/android"
             android:id="@+id/gridview"
             android:layout_width="match_parent"

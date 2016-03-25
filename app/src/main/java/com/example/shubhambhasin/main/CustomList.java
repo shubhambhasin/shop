@@ -20,8 +20,10 @@ public class CustomList extends BaseAdapter{
     private Context mContext;
     private final String[] names;
     private final HashMap<Integer,Bitmap> Images;
+    String type;
 
-    public CustomList(Context c,String[] names,HashMap<Integer,Bitmap> Images) {
+    public CustomList(Context c,String[] names,HashMap<Integer,Bitmap> Images,String type) {
+        this.type=type;
         mContext = c;
         this.Images = Images;
         this.names =names;
@@ -63,12 +65,18 @@ public class CustomList extends BaseAdapter{
         TextView textView = (TextView) grid.findViewById(R.id.list_text);
         ImageView imageView = (ImageView)grid.findViewById(R.id.list_image);
         textView.setText(names[position]);
+        if(type.equalsIgnoreCase("heading"))
+        {
+            textView.setAllCaps(true);
+            textView.setTextSize(20);
+            textView.setTextColor(Color.BLACK);
+        }
         imageView.setImageBitmap(Images.get(position));
         if(position%2==0){
             grid.setBackgroundColor(Color.rgb(255,255,255));
         }else
         {
-            grid.setBackgroundColor(Color.rgb(193,193,193));
+            grid.setBackgroundColor(Color.rgb(193, 193, 193));
         }
 
         return grid;

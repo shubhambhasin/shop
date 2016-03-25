@@ -41,6 +41,7 @@ public class itemDetails extends BaseActivity{
     TextView brand;
     Spinner getquantspinner;
     Button done;
+    String subcategoryName;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,6 +54,9 @@ public class itemDetails extends BaseActivity{
             Intent fromitemselected=getIntent();
             itemId=fromitemselected.getStringExtra("itemId");
 
+            subcategoryId=fromitemselected.getStringExtra("subcategoryId");
+
+            subcategoryName=fromitemselected.getStringExtra("subcategoryName");
 
             final ParseObject itemobject=ParseObject.createWithoutData(ItemTable.TABLE_NAME,itemId);
 
@@ -133,6 +137,13 @@ public class itemDetails extends BaseActivity{
                                                 itemtocart.saveEventually();
                                                 Toast.makeText(getApplicationContext(), "Item added to cart", Toast.LENGTH_LONG).show();
                                                 getquantdialog.dismiss();
+
+                                                Intent itemordered=new Intent(itemDetails.this,itemListActivity.class);
+                                                itemordered.putExtra("subcategoryId",subcategoryId);
+                                                itemordered.putExtra("subcategoryName",subcategoryName);
+                                                startActivity(itemordered);
+
+
                                             }
                                         });
 

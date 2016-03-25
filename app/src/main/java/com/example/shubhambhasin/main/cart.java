@@ -49,6 +49,7 @@ ImageView nocart;
     Button removefromcart;
     Button done;
     TextView totaltext;
+    TextView infotext;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -64,6 +65,7 @@ ImageView nocart;
             drawerFragment.setUp(R.id.fragment_navigation_drawer, (DrawerLayout) findViewById(R.id.drawer_layout), mToolbar);//pass role
             drawerFragment.setDrawerListener(this);
 
+            infotext=(TextView)findViewById(R.id.infotext);
             cartList=(ListView)findViewById(R.id.cartList);
             placeOrder=(Button)findViewById(R.id.placeorderbutton);
             totalcost=(TextView)findViewById(R.id.total);
@@ -135,16 +137,16 @@ totaltext=(TextView)findViewById(R.id.totaltext);
                                 total+=(price_map.get(y)*quantity_map.get(y));
                             }
 
-                            CustomList adapter = new CustomList(cart.this, name, cart_image);
+                            CustomList adapter = new CustomList(cart.this, name, cart_image,"normal");
                             cartList.setAdapter(adapter);
 
 
-                            totalcost.setText(String.valueOf(total));
+                            totalcost.setText("Rs. " + String.valueOf(total));
 
                             placeOrder.setOnClickListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {
-                                    Toast.makeText(getApplicationContext(),"Order Placed",Toast.LENGTH_LONG).show();
+                                    Toast.makeText(getApplicationContext(), "Order Placed", Toast.LENGTH_LONG).show();
                                 }
                             });
 
@@ -236,6 +238,7 @@ totaltext=(TextView)findViewById(R.id.totaltext);
                             totalcost.setVisibility(View.INVISIBLE);
                             placeOrder.setVisibility(View.INVISIBLE);
                             totaltext.setVisibility(View.INVISIBLE);
+                            infotext.setVisibility(View.INVISIBLE);
                             nocart.setVisibility(View.VISIBLE);
                             nocart.setImageResource(R.drawable.emptycart);
                         }

@@ -20,7 +20,8 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="30dp"
             android:textSize="13sp"
-            android:layout_toEndOf="@+id/list_image">
+            android:layout_toEndOf="@+id/list_image"
+            android:textStyle="bold">
         </TextView>
     </RelativeLayout>
 </LinearLayout>

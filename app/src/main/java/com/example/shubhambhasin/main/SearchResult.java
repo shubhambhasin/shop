@@ -1,20 +1,20 @@
 package com.example.shubhambhasin.main;
 
 
+import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
+
 import android.widget.AdapterView;
-import android.widget.GridView;
-import android.widget.ListAdapter;
+import android.widget.ImageView;
+
 import android.widget.ListView;
+
 import android.widget.Toast;
 
 
@@ -36,16 +36,19 @@ public class SearchResult extends BaseActivity{
     private FragmentDrawer drawerFragment;
     ListView searchList;
     searchBar search_bar;
+    ImageView noresult;
     final HashMap<Integer,String> search_name=new HashMap<>();
     final HashMap<Integer,Bitmap> search_image=new HashMap<>();
     final HashMap<String,String> search_map=new HashMap<>();
     int index=0;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         try {
             setContentView(R.layout.activity_search_result);
             searchList=(ListView)findViewById(R.id.gridview);
+            noresult=(ImageView)findViewById(R.id.noresult);
             mToolbar = (Toolbar) findViewById(R.id.toolbar);
             setSupportActionBar(mToolbar);
             getSupportActionBar().setDisplayShowHomeEnabled(true);
@@ -62,8 +65,9 @@ public class SearchResult extends BaseActivity{
 
             final String[] searchstringcomponents=searchedString.split(" ");
 
-            checkByItem(searchstringcomponents,searchstringcomponents.length);
-            checkBySubCategory(searchstringcomponents,searchstringcomponents.length);
+
+            checkByItem(searchstringcomponents, searchstringcomponents.length);
+            checkBySubCategory(searchstringcomponents, searchstringcomponents.length);
 
             final String[] name=new String[search_name.size()];
 
@@ -72,9 +76,40 @@ public class SearchResult extends BaseActivity{
 
             }
 
-            CustomList adapter = new CustomList(SearchResult.this, name,search_image);
+            CustomList adapter = new CustomList(SearchResult.this, name,search_image,"normal");
             searchList.setAdapter(adapter);
+            if(index==0){
+                Toast.makeText(SearchResult.this,"Sorry! No results found! :(",Toast.LENGTH_LONG).show();
+                searchList.setVisibility(View.INVISIBLE);
+            }else
+            {
+                Toast.makeText(SearchResult.this,String.valueOf(index) + " results found!",Toast.LENGTH_LONG).show();
+                noresult.getLayoutParams().height = 0;
+                noresult.getLayoutParams().width = 0;
+                noresult.setVisibility(View.INVISIBLE);
+            }
 
+
+
+            searchList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    try {
+                    String item=name[position];
+                    //  Toast.makeText(getApplicationContext(),item_map.get(item),Toast.LENGTH_LONG).show();
+                    Intent categorySelectedIntent=new Intent(SearchResult.this,itemDetails.class);
+                    categorySelectedIntent.putExtra("itemId", search_map.get(item));
+                    ParseObject itemobject=ParseObject.createWithoutData(ItemTable.TABLE_NAME,search_map.get(item));
+                    ParseObject subcategory = itemobject.fetchIfNeeded().getParseObject(ItemTable.SUB_CATEGORY);
+
+                    categorySelectedIntent.putExtra("subcategoryId",subcategory.fetchIfNeeded().getObjectId());
+                    categorySelectedIntent.putExtra("subcategoryName",subcategory.fetchIfNeeded().getString(SubCategoryTable.NAME));
+                    startActivity(categorySelectedIntent);
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
+                }
+            });
 
         }catch(Exception create_error){
             Log.d("user", "error in create search activity: " + create_error.getMessage());
@@ -112,7 +147,7 @@ public class SearchResult extends BaseActivity{
                         c++;
                         String itemname = itemobject.fetchIfNeeded().getString(ItemTable.NAME);
                         String itembrand = itemobject.fetchIfNeeded().getString(ItemTable.BRAND);
-                        String itemdetails = itemname + "\n" + itembrand;
+                        String itemdetails = itemname + "\nBrand : " + itembrand;
 
                         search_name.put(index, itemdetails);
 
@@ -148,7 +183,7 @@ public class SearchResult extends BaseActivity{
                             c++;
                             String itemname = itemobject.fetchIfNeeded().getString(ItemTable.NAME);
                             String itembrand = itemobject.fetchIfNeeded().getString(ItemTable.BRAND);
-                            String itemdetails = itemname + "\n" + itembrand;
+                            String itemdetails = itemname + "\nBrand : " + itembrand;
 
 
                             if(search_map.get(itemdetails)==null) {
@@ -204,10 +239,11 @@ public class SearchResult extends BaseActivity{
                 for (int x = 0; x < size; x++){                 //for each component
 
                     if (name.equalsIgnoreCase(searchedstringcomponents[x])) {                  //check brand
+                        Log.d("comparing",name +" "+ searchedstringcomponents[x]);
                         c++;
 
                         ParseQuery<ParseObject> itemsfromsubcategoryquery=ParseQuery.getQuery(ItemTable.TABLE_NAME);
-
+                        itemsfromsubcategoryquery.whereEqualTo(ItemTable.SUB_CATEGORY, subcategoryobject);
                         List<ParseObject> itemobjects=itemsfromsubcategoryquery.find();
                         if(itemobjects.size()!=0){
                             for(int z=0;z<itemobjects.size();z++) {
@@ -215,7 +251,7 @@ public class SearchResult extends BaseActivity{
 
                                 String itemname = itemobject.fetchIfNeeded().getString(ItemTable.NAME);
                                 String itembrand = itemobject.fetchIfNeeded().getString(ItemTable.BRAND);
-                                String itemdetails = itemname + "\n" + itembrand;
+                                String itemdetails = itemname + "\nBrand : " + itembrand;
 
                                 if (search_map.get(itemdetails) == null) {
                                     search_name.put(index, itemdetails);

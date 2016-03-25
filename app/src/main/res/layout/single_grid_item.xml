@@ -20,7 +20,9 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
         android:textSize="20sp"
-        android:layout_alignBottom="@+id/grid_image">
+        android:layout_alignBottom="@+id/grid_image"
+        android:textStyle="normal|bold|italic"
+        android:textColor="#010101">
     </TextView>
 </RelativeLayout>
 </LinearLayout>

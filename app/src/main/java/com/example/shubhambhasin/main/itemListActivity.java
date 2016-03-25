@@ -80,9 +80,11 @@ String subcategoryName;
                                 ParseObject itemobject = itemobjects.get(x);
 
                                 String name=itemobject.getString(ItemTable.NAME);
-                                item_name.put(x,name);
+                                String brand=itemobject.getString(ItemTable.BRAND);
+                                String itemdetails=name + "\nBy: " + brand;
+                                item_name.put(x,itemdetails);
 
-                                item_map.put(name,itemobject.getObjectId());
+                                item_map.put(itemdetails,itemobject.getObjectId());
                                 ParseFile file = (ParseFile)itemobjects.get(x).get(ItemTable.IMAGE);
 
                                 final int finalX = x;
@@ -121,6 +123,8 @@ String subcategoryName;
                                   //  Toast.makeText(getApplicationContext(),item_map.get(item),Toast.LENGTH_LONG).show();
                                     Intent categorySelectedIntent=new Intent(itemListActivity.this,itemDetails.class);
                                     categorySelectedIntent.putExtra("itemId",item_map.get(item));
+                                    categorySelectedIntent.putExtra("subcategoryId",subcategoryId);
+                                    categorySelectedIntent.putExtra("subcategoryName",subcategoryName);
                                     startActivity(categorySelectedIntent);
                                 }
                             });

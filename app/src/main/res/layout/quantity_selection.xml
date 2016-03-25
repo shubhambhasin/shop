@@ -31,7 +31,9 @@
             android:id="@+id/done"
             android:layout_gravity="center_horizontal"
             android:layout_alignParentBottom="true"
-            android:layout_centerHorizontal="true" />
+            android:layout_centerHorizontal="true"
+            android:background="#323b43"
+            android:textColor="#ffffff" />
 
     </RelativeLayout>
 

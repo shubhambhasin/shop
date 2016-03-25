@@ -89,14 +89,20 @@
                 android:layout_centerHorizontal="true" />
 </ScrollView>
         </RelativeLayout>
-
+<RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
         <Button
             android:layout_width="321dp"
             android:layout_height="wrap_content"
             android:text="Add To Cart"
-            android:id="@+id/addToCart" />
+            android:id="@+id/addToCart"
+            android:textColor="#ffffff"
+            android:background="#323b43"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true" />
 
-
+</RelativeLayout>
     </LinearLayout>
 
 

@@ -46,7 +46,7 @@ public class SubcategoryActivity extends BaseActivity{
             mToolbar = (Toolbar) findViewById(R.id.toolbar);
             setSupportActionBar(mToolbar);
             getSupportActionBar().setDisplayShowHomeEnabled(true);
-            getSupportActionBar().setTitle("Sub-Categories");
+            getSupportActionBar().setTitle("Categories");
             search_bar = (searchBar)getSupportFragmentManager().findFragmentById(R.id.searchfragment);
             search_bar.setUserName(ParseUser.getCurrentUser().getUsername());
 
@@ -92,7 +92,7 @@ public class SubcategoryActivity extends BaseActivity{
                                 }
 
                                 ImageResizer ir=new ImageResizer();
-                                Bitmap bitmap = ir.resizeImage(data, 200, 180);
+                                Bitmap bitmap = ir.resizeImage(data, 150, 150);
                                 subcategory_image.put(finalX, bitmap);
 
 
@@ -106,7 +106,7 @@ public class SubcategoryActivity extends BaseActivity{
 
                             }
 
-                            CustomGrid adapter = new CustomGrid(SubcategoryActivity.this, name, subcategory_image);
+                            CustomList adapter = new CustomList(SubcategoryActivity.this, name, subcategory_image,"heading");
                             subcategories.setAdapter(adapter);
 
 
