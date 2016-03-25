@@ -5,6 +5,7 @@ package com.example.shubhambhasin.main;
  */
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -48,8 +49,7 @@ public class CustomList extends BaseAdapter{
     public View getView(int position, View convertView, ViewGroup parent) {
         // TODO Auto-generated method stub
         View grid;
-        LayoutInflater inflater = (LayoutInflater) mContext
-                .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
         if (convertView == null) {
 
@@ -64,6 +64,12 @@ public class CustomList extends BaseAdapter{
         ImageView imageView = (ImageView)grid.findViewById(R.id.list_image);
         textView.setText(names[position]);
         imageView.setImageBitmap(Images.get(position));
+        if(position%2==0){
+            grid.setBackgroundColor(Color.rgb(255,255,255));
+        }else
+        {
+            grid.setBackgroundColor(Color.rgb(193,193,193));
+        }
 
         return grid;
     }

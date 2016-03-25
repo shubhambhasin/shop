@@ -5,6 +5,7 @@ package com.example.shubhambhasin.main;
  */
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -64,6 +65,18 @@ public class CustomGrid extends BaseAdapter{
         ImageView imageView = (ImageView)grid.findViewById(R.id.grid_image);
         textView.setText(names[position]);
         imageView.setImageBitmap(Images.get(position));
+        if(position%4==0){
+            grid.setBackgroundColor(Color.rgb(255, 255, 255));
+        }else if(position%4==1)
+        {
+            grid.setBackgroundColor(Color.rgb(193,193,193));
+        }else if(position%4==2)
+        {
+            grid.setBackgroundColor(Color.rgb(193,193,193));
+        }else
+        {
+            grid.setBackgroundColor(Color.rgb(255, 255, 255));
+        }
 
         return grid;
     }

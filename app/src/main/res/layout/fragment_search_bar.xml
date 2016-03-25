@@ -22,7 +22,7 @@
         android:id="@+id/searchText"
         android:layout_gravity="right|center_vertical"
         android:background="#ababab"
-        />
+        android:textColor="#ffffff" />
     <ImageButton
         android:layout_width="38dp"
         android:layout_height="38dp"
