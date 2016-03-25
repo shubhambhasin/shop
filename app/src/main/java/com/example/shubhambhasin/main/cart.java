@@ -178,8 +178,8 @@ totaltext=(TextView)findViewById(R.id.totaltext);
 
 
                                         int avlquant=selecteditemobject.getInt(ItemTable.QUANTITY_AVAILABLE);
-                                        String[] quant=new String[avlquant+1];
-                                        for (int i = 0; i <= avlquant; i++) {
+                                        String[] quant=new String[avlquant];
+                                        for (int i = 0; i < avlquant; i++) {
                                             quant[i] = String.valueOf(i+1);
                                         }
                                         ArrayAdapter<String> adapter_end = new ArrayAdapter<String>(cart.this,android.R.layout.simple_spinner_item,quant);

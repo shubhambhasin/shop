@@ -94,7 +94,7 @@
             android:text="Quantity : "
             android:id="@+id/textView" />
         <Spinner
-            android:layout_width="140dp"
+            android:layout_width="50dp"
             android:layout_height="wrap_content"
             android:id="@+id/quantitySpinner"
             android:layout_gravity="right"

@@ -1,6 +1,7 @@
 package com.example.shubhambhasin.main;
 
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -9,8 +10,10 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -36,7 +39,8 @@ public class itemDetails extends BaseActivity{
     TextView details;
     Button tocart;
     TextView brand;
-
+    Spinner getquantspinner;
+    Button done;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -105,13 +109,33 @@ public class itemDetails extends BaseActivity{
                                     if (cartobjects.size() != 0) {
                                         Toast.makeText(getApplicationContext(), "Item already in cart", Toast.LENGTH_LONG).show();
                                     } else {
+                                        final Dialog getquantdialog=new Dialog(itemDetails.this);
+                                        getquantdialog.setContentView(R.layout.quantity_selection);
+                                        //setDialogSize(getquantdialog);
+                                        getquantspinner=(Spinner)getquantdialog.findViewById(R.id.quantitySpinner);
+                                        done=(Button)getquantdialog.findViewById(R.id.done);
+                                        int avlquant=itemobject.getInt(ItemTable.QUANTITY_AVAILABLE);
+                                        String[] quant=new String[avlquant];
+                                        for (int i = 0; i < avlquant; i++) {
+                                            quant[i] = String.valueOf(i+1);
+                                        }
+                                        ArrayAdapter<String> adapter_end = new ArrayAdapter<String>(itemDetails.this,android.R.layout.simple_spinner_item,quant);
+                                        getquantspinner.setAdapter(adapter_end);
+                                        getquantdialog.show();
 
-                                        ParseObject itemtocart = new ParseObject(CartTable.TABLE_NAME);
-                                        itemtocart.put(CartTable.ITEM, itemobject);
-                                        itemtocart.put(CartTable.USER, ParseUser.getCurrentUser());
-                                        itemtocart.put(CartTable.QUANTITY, 1);
-                                        itemtocart.saveEventually();
-                                        Toast.makeText(getApplicationContext(), "Item added to cart", Toast.LENGTH_LONG).show();
+                                        done.setOnClickListener(new View.OnClickListener() {
+                                            @Override
+                                            public void onClick(View v) {
+                                                ParseObject itemtocart = new ParseObject(CartTable.TABLE_NAME);
+                                                itemtocart.put(CartTable.ITEM, itemobject);
+                                                itemtocart.put(CartTable.USER, ParseUser.getCurrentUser());
+                                                itemtocart.put(CartTable.QUANTITY, Integer.parseInt(getquantspinner.getSelectedItem().toString()));
+                                                itemtocart.saveEventually();
+                                                Toast.makeText(getApplicationContext(), "Item added to cart", Toast.LENGTH_LONG).show();
+                                                getquantdialog.dismiss();
+                                            }
+                                        });
+
                                     }
                                 } else {
                                     Log.d("cart", "Exceptional error " + e);
