@@ -23,6 +23,7 @@ import com.parse.ParseException;
 import com.parse.ParseFile;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
+import com.parse.ParseUser;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -33,7 +34,7 @@ public class MainActivity extends BaseActivity{
     private Toolbar mToolbar;
     private FragmentDrawer drawerFragment;
     GridView categories;
-
+    searchBar search_bar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,6 +46,8 @@ public class MainActivity extends BaseActivity{
             getSupportActionBar().setDisplayShowHomeEnabled(true);
             getSupportActionBar().setTitle("Categories");
 
+            search_bar = (searchBar)getSupportFragmentManager().findFragmentById(R.id.searchfragment);
+            search_bar.setUserName(ParseUser.getCurrentUser().getUsername());
 
 
             drawerFragment = (FragmentDrawer) getSupportFragmentManager().findFragmentById(R.id.fragment_navigation_drawer);

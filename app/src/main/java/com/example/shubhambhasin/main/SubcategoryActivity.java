@@ -24,6 +24,7 @@ import com.parse.ParseException;
 import com.parse.ParseFile;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
+import com.parse.ParseUser;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -34,6 +35,7 @@ public class SubcategoryActivity extends BaseActivity{
     private Toolbar mToolbar;
     private FragmentDrawer drawerFragment;
     ListView subcategories;
+    searchBar search_bar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,6 +47,8 @@ public class SubcategoryActivity extends BaseActivity{
             setSupportActionBar(mToolbar);
             getSupportActionBar().setDisplayShowHomeEnabled(true);
             getSupportActionBar().setTitle("Sub-Categories");
+            search_bar = (searchBar)getSupportFragmentManager().findFragmentById(R.id.searchfragment);
+            search_bar.setUserName(ParseUser.getCurrentUser().getUsername());
 
 
             Intent categorySelectedIntent=getIntent();

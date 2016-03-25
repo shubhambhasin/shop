@@ -25,6 +25,14 @@
 
         </LinearLayout>
 
+        <fragment
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:name="com.example.shubhambhasin.main.searchBar"
+            android:id="@+id/searchfragment"
+            android:layout_gravity="center_horizontal"
+            tools:layout="@layout/fragment_search_bar" />
+
         <ListView xmlns:android="http://schemas.android.com/apk/res/android"
             android:id="@+id/listview"
             android:layout_width="match_parent"

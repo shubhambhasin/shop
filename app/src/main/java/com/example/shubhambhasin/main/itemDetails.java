@@ -52,7 +52,7 @@ public class itemDetails extends BaseActivity{
 
             final ParseObject itemobject=ParseObject.createWithoutData(ItemTable.TABLE_NAME,itemId);
 
-            getSupportActionBar().setTitle(itemobject.getString(ItemTable.NAME));
+            getSupportActionBar().setTitle(itemobject.fetchIfNeeded().getString(ItemTable.NAME));
             drawerFragment = (FragmentDrawer) getSupportFragmentManager().findFragmentById(R.id.fragment_navigation_drawer);
             drawerFragment.setUp(R.id.fragment_navigation_drawer, (DrawerLayout) findViewById(R.id.drawer_layout), mToolbar);//pass role
             drawerFragment.setDrawerListener(this);
@@ -66,9 +66,9 @@ public class itemDetails extends BaseActivity{
 
 
 
-            brand.setText(itemobject.getString(ItemTable.BRAND));
-            price.setText(String.valueOf(itemobject.getNumber(ItemTable.PRICE)));
-            details.setText(itemobject.getString(ItemTable.DETAILS));
+            brand.setText(itemobject.fetchIfNeeded().getString(ItemTable.BRAND));
+            price.setText(String.valueOf(itemobject.fetchIfNeeded().getNumber(ItemTable.PRICE)));
+            details.setText(itemobject.fetchIfNeeded().getString(ItemTable.DETAILS));
 
 
             ParseFile imageFile = itemobject.getParseFile(ItemTable.IMAGE);

@@ -23,6 +23,7 @@ import com.parse.ParseException;
 import com.parse.ParseFile;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
+import com.parse.ParseUser;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -34,6 +35,7 @@ public class itemListActivity extends BaseActivity{
     private FragmentDrawer drawerFragment;
     GridView categories;
 String subcategoryName;
+    searchBar search_bar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +46,8 @@ String subcategoryName;
             mToolbar = (Toolbar) findViewById(R.id.toolbar);
             setSupportActionBar(mToolbar);
             getSupportActionBar().setDisplayShowHomeEnabled(true);
+            search_bar = (searchBar)getSupportFragmentManager().findFragmentById(R.id.searchfragment);
+            search_bar.setUserName(ParseUser.getCurrentUser().getUsername());
 
             Intent subcategorySelected=getIntent();
             subcategoryId=subcategorySelected.getStringExtra("subcategoryId");
