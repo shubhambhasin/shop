@@ -141,6 +141,7 @@ public class itemDetails extends BaseActivity{
                                                 Intent itemordered=new Intent(itemDetails.this,itemListActivity.class);
                                                 itemordered.putExtra("subcategoryId",subcategoryId);
                                                 itemordered.putExtra("subcategoryName",subcategoryName);
+                                               itemordered.putExtra("from","item");
                                                 startActivity(itemordered);
 
 

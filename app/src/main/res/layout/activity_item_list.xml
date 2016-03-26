@@ -32,6 +32,15 @@
             android:layout_gravity="center_horizontal"
             tools:layout="@layout/fragment_search_bar" />
 
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Filters"
+            android:id="@+id/filterbutton"
+            android:layout_gravity="right"
+            android:background="#323b43"
+            android:textColor="#ffffff" />
+
         <GridView xmlns:android="http://schemas.android.com/apk/res/android"
             android:id="@+id/gridview"
             android:layout_width="match_parent"

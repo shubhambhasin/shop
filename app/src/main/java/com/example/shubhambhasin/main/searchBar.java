@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,6 +30,14 @@ public class searchBar extends Fragment {
         user=(TextView)layout.findViewById(R.id.user);
         searchButton=(ImageButton)layout.findViewById(R.id.searchButton);
         searchText=(EditText)layout.findViewById(R.id.searchText);
+        searchText.setSelected(false);
+        searchText.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+               
+                searchText.setSelected(true);
+            }
+        });
         searchButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

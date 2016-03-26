@@ -118,6 +118,7 @@ public class SubcategoryActivity extends BaseActivity{
                                     Intent subcategorySelectedIntent=new Intent(SubcategoryActivity.this,itemListActivity.class);
                                     subcategorySelectedIntent.putExtra("subcategoryId",subcategory_map.get(item));
                                     subcategorySelectedIntent.putExtra("subcategoryName",item);
+                                    subcategorySelectedIntent.putExtra("from","subcategories");
                                     startActivity(subcategorySelectedIntent);
                                 }
                             });
