@@ -34,7 +34,7 @@ public class searchBar extends Fragment {
         searchText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               
+
                 searchText.setSelected(true);
             }
         });
