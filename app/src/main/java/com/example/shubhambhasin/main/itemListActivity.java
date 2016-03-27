@@ -18,7 +18,9 @@ import android.widget.CheckBox;
 import android.widget.GridView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
+import android.widget.RadioButton;
 import android.widget.SeekBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 
@@ -46,8 +48,9 @@ String subcategoryName;
     Button filterbutton;
     SeekBar pricerange;
     CheckBox statuspricefilter;
-    CheckBox mostpopularcheck;
-    CheckBox newlyaddedcheck;
+    RadioButton mostpopularcheck;
+    RadioButton pricelth;
+    RadioButton pricehtl;
     GridView filtergrid;
     Model[] modelItems;
     Button filterproductbutton;
@@ -133,13 +136,14 @@ String subcategoryName;
                                     public void onClick(View v) {
                                         final Dialog filterdialog=new Dialog(itemListActivity.this);
                                         filterdialog.setContentView(R.layout.filter_layout);
-                                      //  setDialogSize(filterdialog);
+
                                         filterdialog.setTitle("Filters");
 
                                         filtergrid=(GridView)filterdialog.findViewById(R.id.filtergrid);
                                         filterproductbutton=(Button)filterdialog.findViewById(R.id.done);
-                                        mostpopularcheck=(CheckBox)filterdialog.findViewById(R.id.mostpopular);
-                                        newlyaddedcheck=(CheckBox)filterdialog.findViewById(R.id.newlyadded);
+                                        mostpopularcheck=(RadioButton)filterdialog.findViewById(R.id.mostpopular);
+                                        pricehtl=(RadioButton)filterdialog.findViewById(R.id.orderpricehtl);
+                                        pricelth=(RadioButton)filterdialog.findViewById(R.id.orderpricelth);
                                         pricerange=(SeekBar)filterdialog.findViewById(R.id.priceseekbar);
                                         pricerange.setVisibility(View.INVISIBLE);
                                         statuspricefilter=(CheckBox)filterdialog.findViewById(R.id.pricerangestatus);
@@ -158,6 +162,32 @@ String subcategoryName;
                                             }
                                         });
 
+
+                                        pricerange.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+                                            Dialog scrollvaluedialog=new Dialog(itemListActivity.this);
+
+                                            TextView scrollvalue;
+                                            @Override
+                                            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                                                scrollvaluedialog.setContentView(R.layout.scrollvalue);
+                                                scrollvalue=(TextView)scrollvaluedialog.findViewById(R.id.scrollvalue);
+
+                                                scrollvalue.setText(String.valueOf(seekBar.getProgress()));
+
+                                            }
+
+                                            @Override
+                                            public void onStartTrackingTouch(SeekBar seekBar) {
+                                                scrollvaluedialog.show();
+
+                                            }
+
+                                            @Override
+                                            public void onStopTrackingTouch(SeekBar seekBar) {
+                                                scrollvaluedialog.dismiss();
+                                            }
+                                        });
+
                                         final HashMap<String,String> brand_map=new HashMap<>();
                                         final ParseQuery<ParseObject> brandlistingquery=ParseQuery.getQuery(ItemTable.TABLE_NAME);
                                         brandlistingquery.whereEqualTo(ItemTable.SUB_CATEGORY,ParseObject.createWithoutData(SubCategoryTable.TABLE_NAME,subcategoryId));
@@ -167,7 +197,7 @@ String subcategoryName;
 
                                         int i = 0;
                                                     if (itemobjectsinfilter.size() != 0) {
-                                                      //  modelItems = new Model[itemobjects.size()];
+
                                                         for (int x = 0; x < itemobjectsinfilter.size(); x++) {
                                                             ParseObject itemobject = itemobjectsinfilter.get(x);
                                                             String brand = itemobject.getString(ItemTable.BRAND).toUpperCase();
@@ -198,20 +228,33 @@ String subcategoryName;
                                                                 filterdialog.dismiss();
                                                                 size=modelItems.length;
 
+                                                                boolean brandfiltering=false;
 
                                                                 int flag = 0;
                                                                 for (int l = 0; l < size; l++) {
                                                                     if (modelItems[l].isChecked()) {
                                                                         flag = 1;
+                                                                        brandfiltering=true;
                                                                         break;
                                                                     }
                                                                 }
-
-                                                                if (flag == 0) {
-
-                                                                } else {
-                                                                    applyfilter(size);
+                                                                if(statuspricefilter.isChecked()){
+                                                                    flag=1;
                                                                 }
+                                                                if(mostpopularcheck.isChecked()){
+                                                                    flag=1;
+                                                                }
+                                                                if(pricelth.isChecked()){
+                                                                    flag=1;
+                                                                }
+                                                                if(pricehtl.isChecked()){
+                                                                    flag=1;
+                                                                }
+
+
+                                                                if (flag != 0)
+                                                                    applyfilter(size,brandfiltering,statuspricefilter.isChecked(),pricerange.getProgress(),mostpopularcheck.isChecked(),pricehtl.isChecked(),pricelth.isChecked());
+
 
 
                                                             }
@@ -265,26 +308,43 @@ String subcategoryName;
 
 
 
-    protected void applyfilter(final int size) {
+    protected void applyfilter(final int size, final boolean brandfiltering,boolean ifpricefilter,int priceRange,boolean mostpopular,boolean pricehtl,boolean pricelth)
+    {
+
+            categories.removeAllViewsInLayout();
 
 
         final HashMap<Integer, String> item_name = new HashMap<>();
         final HashMap<Integer, Bitmap> item_image = new HashMap<>();
         final HashMap<String, String> item_map = new HashMap<>();
         final ParseQuery<ParseObject> itemquery = new ParseQuery(ItemTable.TABLE_NAME);
+        if(ifpricefilter){
+            itemquery.whereLessThan(ItemTable.PRICE,priceRange);
+        }
+        if(mostpopular){
+            itemquery.addDescendingOrder(ItemTable.COUNT);
+        }
+        if(pricehtl){
+            itemquery.addDescendingOrder(ItemTable.PRICE);
+        }
+        if(pricelth){
+            itemquery.addAscendingOrder(ItemTable.PRICE);
+
+        }
         itemquery.whereEqualTo(ItemTable.SUB_CATEGORY, ParseObject.createWithoutData(SubCategoryTable.TABLE_NAME, subcategoryId));
 
-            itemquery.findInBackground(new FindCallback<ParseObject>() {
-                @Override
-                public void done(List<ParseObject> itemobjects, ParseException e) {
-                    if (e == null) {
-                        int c = 0;
-                        if (itemobjects.size() != 0) {
+        itemquery.findInBackground(new FindCallback<ParseObject>() {
+            @Override
+            public void done(List<ParseObject> itemobjects, ParseException e) {
+                if (e == null) {
+                    int c = 0;
+                    if (itemobjects.size() != 0) {
 
-                            for (int x = 0; x < itemobjects.size(); x++) {
-                                ParseObject itemobject = itemobjects.get(x);
-                                String brand = itemobject.getString(ItemTable.BRAND);
-                                // Log.d("user","here");
+                        for (int x = 0; x < itemobjects.size(); x++) {
+                            ParseObject itemobject = itemobjects.get(x);
+                            String brand = itemobject.getString(ItemTable.BRAND);
+                            // Log.d("user","here");
+                            if (brandfiltering) {
                                 for (int l = 0; l < size; l++) {
                                     Log.d("model", modelItems[l].getName() + " " + modelItems[l].isChecked());
                                     if ((modelItems[l].isChecked()) && (modelItems[l].getName().equalsIgnoreCase(brand))) {
@@ -312,41 +372,66 @@ String subcategoryName;
                                     }
 
                                 }
+                            } else {
 
 
-                            }
+                                String name = itemobject.getString(ItemTable.NAME);
+                                //String brand = itemobject.getString(ItemTable.BRAND);
+                                String itemdetails = name + "\nBy " + brand;
+                                item_name.put(c, itemdetails);
 
+                                item_map.put(itemdetails, itemobject.getObjectId());
+                                ParseFile file = (ParseFile) itemobjects.get(x).get(ItemTable.IMAGE);
 
-                            final String[] name = new String[item_name.size()];
+                                byte[] data = null;
 
-                            for (int y = 0; y < name.length; y++) {
-                                name[y] = item_name.get(y);
-
-                            }
-
-                            CustomGrid adapter = new CustomGrid(itemListActivity.this, name, item_image);
-                            categories.setAdapter(adapter);
-                            categories.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                                @Override
-                                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                                    String item = name[position];
-                                    //  Toast.makeText(getApplicationContext(),item_map.get(item),Toast.LENGTH_LONG).show();
-                                    Intent categorySelectedIntent = new Intent(itemListActivity.this, itemDetails.class);
-                                    categorySelectedIntent.putExtra("itemId", item_map.get(item));
-                                    categorySelectedIntent.putExtra("subcategoryId", subcategoryId);
-                                    categorySelectedIntent.putExtra("subcategoryName", subcategoryName);
-                                    startActivity(categorySelectedIntent);
+                                try {
+                                    data = file.getData();
+                                } catch (ParseException e1) {
+                                    e1.printStackTrace();
                                 }
-                            });
 
-                        } else {
-                            Toast.makeText(getApplicationContext(), "No products according to filter", Toast.LENGTH_LONG).show();
+                                ImageResizer ir = new ImageResizer();
+                                Bitmap bitmap = ir.resizeImage(data, 200, 180);
+                                item_image.put(c, bitmap);
+                                c++;
+
+
+                            }
+
                         }
+
+
+                        final String[] name = new String[item_name.size()];
+
+                        for (int y = 0; y < name.length; y++) {
+                            name[y] = item_name.get(y);
+
+                        }
+
+                        CustomGrid adapter = new CustomGrid(itemListActivity.this, name, item_image);
+                        categories.setAdapter(adapter);
+                        categories.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                            @Override
+                            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                                String item = name[position];
+                                //  Toast.makeText(getApplicationContext(),item_map.get(item),Toast.LENGTH_LONG).show();
+                                Intent categorySelectedIntent = new Intent(itemListActivity.this, itemDetails.class);
+                                categorySelectedIntent.putExtra("itemId", item_map.get(item));
+                                categorySelectedIntent.putExtra("subcategoryId", subcategoryId);
+                                categorySelectedIntent.putExtra("subcategoryName", subcategoryName);
+                                startActivity(categorySelectedIntent);
+                            }
+                        });
+
                     } else {
-                        Log.d("item", "exceptional error " + e);
+                        Toast.makeText(getApplicationContext(), "No products according to filter", Toast.LENGTH_LONG).show();
                     }
+                } else {
+                    Log.d("item", "exceptional error " + e);
                 }
-            });
+            }
+        });
 
 
 
@@ -364,6 +449,10 @@ String subcategoryName;
 
     }
 
+
+    protected void sleep(int x){
+        for(int y=0;y<x;y++){}
+    }
 }
 
 

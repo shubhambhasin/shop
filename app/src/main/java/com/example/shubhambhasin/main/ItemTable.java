@@ -1,5 +1,7 @@
 package com.example.shubhambhasin.main;
 
+import java.security.PublicKey;
+
 /**
  * Created by Shubham Bhasin on 23-Mar-16.
  */
@@ -13,4 +15,6 @@ public class ItemTable {
     public static final String PRICE="price";
     public static final String BRAND="brand";
     public static final String QUANTITY_AVAILABLE="quantity_available";
+    public static final String COUNT="count";
+    public static final String DATE="createdAt";
 }

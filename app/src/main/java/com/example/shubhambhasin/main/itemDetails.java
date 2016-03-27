@@ -73,6 +73,11 @@ public class itemDetails extends BaseActivity{
             details=(TextView)findViewById(R.id.details);
 
 
+            int c=itemobject.fetchIfNeeded().getInt(ItemTable.COUNT);
+
+
+            itemobject.put(ItemTable.COUNT,c++);
+
 
             brand.setText(itemobject.fetchIfNeeded().getString(ItemTable.BRAND));
             price.setText(String.valueOf(itemobject.fetchIfNeeded().getNumber(ItemTable.PRICE)));

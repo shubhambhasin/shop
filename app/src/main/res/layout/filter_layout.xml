@@ -48,9 +48,20 @@
         android:layout_height="wrap_content"
         android:id="@+id/priceseekbar"
         android:layout_gravity="center_horizontal"
-        android:indeterminate="false" />
+        android:indeterminate="false"
+        android:max="3000" />
 
-    <CheckBox
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Order By:"
+        android:id="@+id/textView7" />
+    <RadioGroup xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+    <RadioButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Most Popular"
@@ -58,14 +69,23 @@
         android:textStyle="bold"
         android:textSize="20dp" />
 
-    <CheckBox
+    <RadioButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Newly Added"
-        android:id="@+id/newlyadded"
+        android:text="Price : lower to higher"
+        android:id="@+id/orderpricelth"
         android:textStyle="bold"
         android:textSize="20dp" />
 
+
+    <RadioButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Price : higher to lower"
+        android:id="@+id/orderpricehtl"
+        android:textStyle="bold"
+        android:textSize="20dp" />
+</RadioGroup>
     <Button
         style="?android:attr/buttonStyleSmall"
         android:layout_width="wrap_content"
