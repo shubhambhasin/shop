@@ -35,6 +35,7 @@ public class MainActivity extends BaseActivity{
     private FragmentDrawer drawerFragment;
     GridView categories;
     searchBar search_bar;
+    popularhorizontallist popular;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,10 +50,77 @@ public class MainActivity extends BaseActivity{
             search_bar = (searchBar)getSupportFragmentManager().findFragmentById(R.id.searchfragment);
             search_bar.setUserName(ParseUser.getCurrentUser().getUsername());
 
+            popular=(popularhorizontallist)getSupportFragmentManager().findFragmentById(R.id.popularfragment);
 
             drawerFragment = (FragmentDrawer) getSupportFragmentManager().findFragmentById(R.id.fragment_navigation_drawer);
             drawerFragment.setUp(R.id.fragment_navigation_drawer, (DrawerLayout) findViewById(R.id.drawer_layout), mToolbar);//pass role
             drawerFragment.setDrawerListener(this);
+
+
+
+            final HashMap<Integer,String> item_name=new HashMap<>();
+            final HashMap<Integer,Bitmap> item_image=new HashMap<>();
+            final HashMap<String,String> item_map=new HashMap<>();
+            final ParseQuery<ParseObject> itemquery= new ParseQuery(ItemTable.TABLE_NAME);
+            itemquery.addDescendingOrder(ItemTable.COUNT);
+            itemquery.findInBackground(new FindCallback<ParseObject>() {
+                @Override
+                public void done(List<ParseObject> categoryobjects, ParseException e) {
+                    if (e == null) {
+                        if (categoryobjects.size() != 0) {
+
+                            for (int x = 0; x < 5; x++) {
+                                ParseObject categoryobject = categoryobjects.get(x);
+
+                                String name = categoryobject.getString(ItemTable.NAME);
+                                item_name.put(x, name);
+
+                                item_map.put(name, categoryobject.getObjectId());
+                                ParseFile file = (ParseFile) categoryobjects.get(x).get(ItemTable.IMAGE);
+
+                                final int finalX = x;
+
+                                byte[] data = null;
+
+                                try {
+                                    data = file.getData();
+                                } catch (ParseException e1) {
+                                    e1.printStackTrace();
+                                }
+                                ImageResizer ir = new ImageResizer();
+                                Bitmap bitmap = ir.resizeImage(data, 200, 180);
+                                //Bitmap bitmap = BitmapFactory.decodeByteArray(data, 0, data.length);
+                                item_image.put(finalX, bitmap);
+
+
+                            }
+
+
+                            final String[] name = new String[item_name.size()];
+
+                            for (int y = 0; y < name.length; y++) {
+                                name[y] = item_name.get(y);
+
+                            }
+
+                           popular.setData(name,item_image);
+
+
+
+
+                        } else {
+                            Toast.makeText(getApplicationContext(), "No categories found", Toast.LENGTH_LONG).show();
+                        }
+                    } else {
+                        Log.d("category", "exceptional error " + e);
+                    }
+                }
+            });
+
+
+
+
+
 
 
 

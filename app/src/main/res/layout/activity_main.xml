@@ -33,6 +33,13 @@
             android:layout_gravity="center_horizontal"
             tools:layout="@layout/fragment_search_bar" />
 
+        <fragment
+            android:layout_width="match_parent"
+            android:layout_height="68dp"
+            android:name="com.example.shubhambhasin.main.popularhorizontallist"
+            android:id="@+id/popularfragment"
+            android:layout_gravity="center_horizontal" />
+
         <GridView xmlns:android="http://schemas.android.com/apk/res/android"
             android:id="@+id/gridview"
             android:layout_width="match_parent"
