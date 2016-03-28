@@ -36,6 +36,7 @@ public class SubcategoryActivity extends BaseActivity{
     private FragmentDrawer drawerFragment;
     ListView subcategories;
     searchBar search_bar;
+    popularhorizontallist popular;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,6 +48,8 @@ public class SubcategoryActivity extends BaseActivity{
             setSupportActionBar(mToolbar);
             getSupportActionBar().setDisplayShowHomeEnabled(true);
             getSupportActionBar().setTitle("Categories");
+
+            popular=(popularhorizontallist)getSupportFragmentManager().findFragmentById(R.id.popularfragment);
             search_bar = (searchBar)getSupportFragmentManager().findFragmentById(R.id.searchfragment);
             search_bar.setUserName(ParseUser.getCurrentUser().getUsername());
 
@@ -58,6 +61,83 @@ public class SubcategoryActivity extends BaseActivity{
             drawerFragment = (FragmentDrawer) getSupportFragmentManager().findFragmentById(R.id.fragment_navigation_drawer);
             drawerFragment.setUp(R.id.fragment_navigation_drawer, (DrawerLayout) findViewById(R.id.drawer_layout), mToolbar);//pass role
             drawerFragment.setDrawerListener(this);
+
+
+
+
+            final HashMap<Integer,String> item_name=new HashMap<>();
+            final HashMap<Integer,Bitmap> item_image=new HashMap<>();
+            final HashMap<String,String> item_map=new HashMap<>();
+            final ParseQuery<ParseObject> itemquery= new ParseQuery(ItemTable.TABLE_NAME);
+            itemquery.addDescendingOrder(ItemTable.COUNT);
+            itemquery.findInBackground(new FindCallback<ParseObject>() {
+                @Override
+                public void done(List<ParseObject> categoryobjects, ParseException e) {
+                    if (e == null) {
+                        if (categoryobjects.size() != 0) {
+                            int x = 0;
+                            while (x <= 5) {
+                                try {
+                                    ParseObject categoryobject = categoryobjects.get(x);
+
+                                    ParseObject subcategoryobject = categoryobjects.get(x).fetchIfNeeded().getParseObject(ItemTable.SUB_CATEGORY);
+
+
+                                    ParseObject categoryobj = subcategoryobject.fetchIfNeeded().getParseObject(SubCategoryTable.CATEGORY);
+                                    if (categoryobj.fetchIfNeeded().getObjectId().equalsIgnoreCase(categoryId))
+                                        ;
+                                    {
+                                        x++;
+                                        String name = categoryobject.getString(ItemTable.NAME);
+                                        item_name.put(x, name);
+
+                                        item_map.put(name, categoryobject.getObjectId());
+                                        ParseFile file = (ParseFile) categoryobjects.get(x).get(ItemTable.IMAGE);
+
+                                        final int finalX = x;
+
+                                        byte[] data = null;
+
+                                        try {
+                                            data = file.getData();
+                                        } catch (ParseException e1) {
+                                            e1.printStackTrace();
+                                        }
+                                        ImageResizer ir = new ImageResizer();
+                                        Bitmap bitmap = ir.resizeImage(data, 200, 180);
+                                        //Bitmap bitmap = BitmapFactory.decodeByteArray(data, 0, data.length);
+                                        item_image.put(finalX, bitmap);
+                                    }
+                                } catch (ParseException e1) {
+                                    e1.printStackTrace();
+                                }
+                            }
+
+
+                            final String[] name = new String[item_name.size()];
+
+                            for (int y = 0; y < name.length; y++) {
+                                name[y] = item_name.get(y);
+
+                            }
+
+                            popular.setData(name, item_image, item_map);
+
+
+                        } else {
+                            Toast.makeText(getApplicationContext(), "No categories found", Toast.LENGTH_LONG).show();
+                        }
+                    } else {
+                        Log.d("category", "exceptional error " + e);
+                    }
+                }
+            });
+
+
+
+
+
+
 
 
 
@@ -75,23 +155,23 @@ public class SubcategoryActivity extends BaseActivity{
                             for (int x = 0; x < subcategoryobjects.size(); x++) {
                                 ParseObject categoryobject = subcategoryobjects.get(x);
 
-                                String name=categoryobject.getString(CategoryTable.NAME);
-                                subcategory_name.put(x,name);
+                                String name = categoryobject.getString(CategoryTable.NAME);
+                                subcategory_name.put(x, name);
 
-                                subcategory_map.put(name,categoryobject.getObjectId());
+                                subcategory_map.put(name, categoryobject.getObjectId());
                                 ParseFile file = (ParseFile) subcategoryobjects.get(x).get(CategoryTable.IMAGE);
 
                                 final int finalX = x;
 
-                                byte[] data=null;
+                                byte[] data = null;
 
                                 try {
-                                    data=file.getData();
+                                    data = file.getData();
                                 } catch (ParseException e1) {
                                     e1.printStackTrace();
                                 }
 
-                                ImageResizer ir=new ImageResizer();
+                                ImageResizer ir = new ImageResizer();
                                 Bitmap bitmap = ir.resizeImage(data, 150, 150);
                                 subcategory_image.put(finalX, bitmap);
 
@@ -99,26 +179,26 @@ public class SubcategoryActivity extends BaseActivity{
                             }
 
 
-                            final String[] name=new String[subcategory_name.size()];
+                            final String[] name = new String[subcategory_name.size()];
 
-                            for(int y=0;y<name.length;y++){
-                                name[y]=subcategory_name.get(y);
+                            for (int y = 0; y < name.length; y++) {
+                                name[y] = subcategory_name.get(y);
 
                             }
 
-                            CustomList adapter = new CustomList(SubcategoryActivity.this, name, subcategory_image,"heading");
+                            CustomList adapter = new CustomList(SubcategoryActivity.this, name, subcategory_image, "heading");
                             subcategories.setAdapter(adapter);
 
 
                             subcategories.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                                 @Override
                                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                                    String item=name[position];
+                                    String item = name[position];
                                     //Toast.makeText(getApplicationContext(),subcategory_map.get(item),Toast.LENGTH_LONG).show();
-                                    Intent subcategorySelectedIntent=new Intent(SubcategoryActivity.this,itemListActivity.class);
-                                    subcategorySelectedIntent.putExtra("subcategoryId",subcategory_map.get(item));
-                                    subcategorySelectedIntent.putExtra("subcategoryName",item);
-                                    subcategorySelectedIntent.putExtra("from","subcategories");
+                                    Intent subcategorySelectedIntent = new Intent(SubcategoryActivity.this, itemListActivity.class);
+                                    subcategorySelectedIntent.putExtra("subcategoryId", subcategory_map.get(item));
+                                    subcategorySelectedIntent.putExtra("subcategoryName", item);
+                                    subcategorySelectedIntent.putExtra("from", "subcategories");
                                     startActivity(subcategorySelectedIntent);
                                 }
                             });
@@ -152,6 +232,13 @@ public class SubcategoryActivity extends BaseActivity{
 
     }
 
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Intent tomain=new Intent(SubcategoryActivity.this,MainActivity.class);
+        startActivity(tomain);
+    }
 }
 
 

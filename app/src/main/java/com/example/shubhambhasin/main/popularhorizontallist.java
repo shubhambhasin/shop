@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.Gallery;
 import android.widget.ImageButton;
@@ -17,6 +18,9 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.support.v4.app.Fragment;
 import android.widget.Toast;
+
+import com.parse.ParseException;
+import com.parse.ParseObject;
 
 import java.util.HashMap;
 
@@ -27,17 +31,41 @@ public class popularhorizontallist extends Fragment {
     public static EditText searchText;
 
     Gallery myHorizontalListView;
-    AnHorizontalListViewFragment.MyAdapter myAdapter;
-    private Context mContext;
+
     public String[] names;
     public HashMap<Integer,Bitmap> Images;
+    public HashMap<String,String> item_map;
 
-
-    public void setData(String[] names,HashMap<Integer,Bitmap> Images) {
+    public void setData(final String[] names, final HashMap<Integer,Bitmap> Images, final HashMap<String,String> item_map) {
         this.names=names;
         this.Images=Images;
-        CustomGrid adapter = new CustomGrid(getActivity(), names, Images);
+        this.item_map=item_map;
+        HorizontalList adapter = new HorizontalList(getActivity(), names, Images);
         myHorizontalListView.setAdapter(adapter);
+
+        myHorizontalListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                try {
+                String item=names[position];
+                // Toast.makeText(getApplicationContext(),category_map.get(item),Toast.LENGTH_LONG).show();
+                ParseObject itemobject=ParseObject.createWithoutData(ItemTable.TABLE_NAME,item_map.get(item));
+                ParseObject subcatobject=itemobject.getParseObject(ItemTable.SUB_CATEGORY);
+                String subcategoryId=subcatobject.getObjectId();
+                String subcategoryName = subcatobject.fetchIfNeeded().getString(SubCategoryTable.NAME);
+
+                Intent categorySelectedIntent=new Intent(getActivity(),itemDetails.class);
+                categorySelectedIntent.putExtra("itemId", item_map.get(item));
+                categorySelectedIntent.putExtra("subcategoryId", subcategoryId);
+                categorySelectedIntent.putExtra("subcategoryName", subcategoryName);
+                startActivity(categorySelectedIntent);
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
+
     }
 
 

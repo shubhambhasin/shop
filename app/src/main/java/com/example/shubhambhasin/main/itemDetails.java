@@ -76,7 +76,8 @@ public class itemDetails extends BaseActivity{
             int c=itemobject.fetchIfNeeded().getInt(ItemTable.COUNT);
 
 
-            itemobject.put(ItemTable.COUNT,c++);
+            itemobject.put(ItemTable.COUNT,++c);
+            itemobject.saveEventually();
 
 
             brand.setText(itemobject.fetchIfNeeded().getString(ItemTable.BRAND));

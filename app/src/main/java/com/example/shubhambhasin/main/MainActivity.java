@@ -103,7 +103,7 @@ public class MainActivity extends BaseActivity{
 
                             }
 
-                           popular.setData(name,item_image);
+                           popular.setData(name,item_image,item_map);
 
 
 
@@ -213,6 +213,11 @@ public class MainActivity extends BaseActivity{
             startActivity(tologin);
         }
 
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
     }
 }
 
