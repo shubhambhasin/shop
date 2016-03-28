@@ -3,9 +3,6 @@ package com.example.shubhambhasin.main;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.widget.Toolbar;
@@ -13,19 +10,16 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.GridView;
-import android.widget.ListAdapter;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
-
 import com.parse.FindCallback;
-import com.parse.GetDataCallback;
 import com.parse.ParseException;
 import com.parse.ParseFile;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -36,6 +30,7 @@ public class MainActivity extends BaseActivity{
     GridView categories;
     searchBar search_bar;
     popularhorizontallist popular;
+    RelativeLayout layoutLoading;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,6 +41,10 @@ public class MainActivity extends BaseActivity{
             setSupportActionBar(mToolbar);
             getSupportActionBar().setDisplayShowHomeEnabled(true);
             getSupportActionBar().setTitle("Sections");
+
+            layoutLoading=(RelativeLayout)findViewById(R.id.loadingPanel);
+            //layoutLoading.setVisibility(View.GONE);
+            context=this;
 
             search_bar = (searchBar)getSupportFragmentManager().findFragmentById(R.id.searchfragment);
             search_bar.setUserName(ParseUser.getCurrentUser().getUsername());
@@ -170,11 +169,13 @@ public class MainActivity extends BaseActivity{
 
                             CustomGrid adapter = new CustomGrid(MainActivity.this, name, category_image);
                             categories.setAdapter(adapter);
+                            new LoadingSyncList(context,layoutLoading,null).execute();
 
 
                             categories.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                                 @Override
                                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
                                     String item=name[position];
                                   // Toast.makeText(getApplicationContext(),category_map.get(item),Toast.LENGTH_LONG).show();
                                     Intent categorySelectedIntent=new Intent(MainActivity.this,SubcategoryActivity.class);
@@ -185,6 +186,7 @@ public class MainActivity extends BaseActivity{
 
 
                         } else {
+                            layoutLoading.setVisibility(View.GONE);
                             Toast.makeText(getApplicationContext(), "No categories found", Toast.LENGTH_LONG).show();
                         }
                     } else {

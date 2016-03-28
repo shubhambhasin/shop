@@ -1,32 +1,26 @@
 package com.example.shubhambhasin.main;
 
 
+import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.GridView;
-import android.widget.ListAdapter;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
-
 import com.parse.FindCallback;
-import com.parse.GetDataCallback;
 import com.parse.ParseException;
 import com.parse.ParseFile;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -37,6 +31,8 @@ public class SubcategoryActivity extends BaseActivity{
     ListView subcategories;
     searchBar search_bar;
     popularhorizontallist popular;
+    RelativeLayout layoutLoading;
+    Activity context;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,9 +45,14 @@ public class SubcategoryActivity extends BaseActivity{
             getSupportActionBar().setDisplayShowHomeEnabled(true);
             getSupportActionBar().setTitle("Categories");
 
+            context= this;
+
             popular=(popularhorizontallist)getSupportFragmentManager().findFragmentById(R.id.popularfragment);
             search_bar = (searchBar)getSupportFragmentManager().findFragmentById(R.id.searchfragment);
             search_bar.setUserName(ParseUser.getCurrentUser().getUsername());
+
+            layoutLoading=(RelativeLayout)findViewById(R.id.loadingPanel);
+           // layoutLoading.setVisibility(View.GONE);
 
 
             Intent categorySelectedIntent=getIntent();
@@ -114,12 +115,14 @@ public class SubcategoryActivity extends BaseActivity{
 
                             CustomList adapter = new CustomList(SubcategoryActivity.this, name, subcategory_image, "heading");
                             subcategories.setAdapter(adapter);
+                            new LoadingSyncList(context,layoutLoading,null).execute();
 
 
                             subcategories.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                                 @Override
                                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                                     String item = name[position];
+
                                     //Toast.makeText(getApplicationContext(),subcategory_map.get(item),Toast.LENGTH_LONG).show();
                                     Intent subcategorySelectedIntent = new Intent(SubcategoryActivity.this, itemListActivity.class);
                                     subcategorySelectedIntent.putExtra("subcategoryId", subcategory_map.get(item));
@@ -131,6 +134,7 @@ public class SubcategoryActivity extends BaseActivity{
 
 
                         } else {
+                            layoutLoading.setVisibility(View.GONE);
                             Toast.makeText(getApplicationContext(), "No subcategories found", Toast.LENGTH_LONG).show();
                         }
                     } else {

@@ -4,9 +4,6 @@ package com.example.shubhambhasin.main;
 import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.widget.Toolbar;
@@ -16,23 +13,19 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.GridView;
-import android.widget.ListAdapter;
-import android.widget.ListView;
 import android.widget.RadioButton;
+import android.widget.RelativeLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-
 import com.parse.FindCallback;
-import com.parse.GetDataCallback;
 import com.parse.ParseException;
 import com.parse.ParseFile;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -55,6 +48,8 @@ String subcategoryName;
     Model[] modelItems;
     Button filterproductbutton;
     static int size;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -75,6 +70,10 @@ String subcategoryName;
             drawerFragment = (FragmentDrawer) getSupportFragmentManager().findFragmentById(R.id.fragment_navigation_drawer);
             drawerFragment.setUp(R.id.fragment_navigation_drawer, (DrawerLayout) findViewById(R.id.drawer_layout), mToolbar);//pass role
             drawerFragment.setDrawerListener(this);
+
+            layoutLoading=(RelativeLayout)findViewById(R.id.loadingPanel);
+            //layoutLoading.setVisibility(View.GONE);
+            context=this;
 
 
 
@@ -129,6 +128,7 @@ String subcategoryName;
 
                                 CustomGrid adapter = new CustomGrid(itemListActivity.this, name, item_image);
                                 categories.setAdapter(adapter);
+                                new LoadingSyncList(context,layoutLoading,null).execute();
 
 
                                 filterbutton.setOnClickListener(new View.OnClickListener() {
@@ -292,6 +292,7 @@ String subcategoryName;
 
                             } else {
                 filterbutton.setVisibility(View.INVISIBLE);
+                layoutLoading.setVisibility(View.GONE);
                                 Toast.makeText(getApplicationContext(), "No items found", Toast.LENGTH_LONG).show();
                             }
             } catch (ParseException e) {

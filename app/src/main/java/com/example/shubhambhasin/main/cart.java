@@ -13,14 +13,12 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.GridView;
 import android.widget.ImageView;
-import android.widget.ListAdapter;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
-
 
 import com.parse.FindCallback;
 import com.parse.ParseException;
@@ -29,7 +27,6 @@ import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -64,6 +61,9 @@ ImageView nocart;
            drawerFragment = (FragmentDrawer) getSupportFragmentManager().findFragmentById(R.id.fragment_navigation_drawer);
             drawerFragment.setUp(R.id.fragment_navigation_drawer, (DrawerLayout) findViewById(R.id.drawer_layout), mToolbar);//pass role
             drawerFragment.setDrawerListener(this);
+
+            layoutLoading=(RelativeLayout)findViewById(R.id.loadingPanel);
+            context=this;
 
             infotext=(TextView)findViewById(R.id.infotext);
             cartList=(ListView)findViewById(R.id.cartList);
@@ -139,6 +139,7 @@ totaltext=(TextView)findViewById(R.id.totaltext);
 
                             CustomList adapter = new CustomList(cart.this, name, cart_image,"normal");
                             cartList.setAdapter(adapter);
+                            new LoadingSyncList(context,layoutLoading,null).execute();
 
 
                             totalcost.setText("Rs. " + String.valueOf(total));
@@ -234,6 +235,7 @@ totaltext=(TextView)findViewById(R.id.totaltext);
                             });
 
                         } else {
+                            layoutLoading.setVisibility(View.GONE);
                             Toast.makeText(getApplicationContext(), "No item added to cart", Toast.LENGTH_LONG).show();
                             totalcost.setVisibility(View.INVISIBLE);
                             placeOrder.setVisibility(View.INVISIBLE);

@@ -4,6 +4,7 @@ package com.example.shubhambhasin.main;
  * Created by Shubham Bhasin on 23-Mar-16.
  */
 
+import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
@@ -17,14 +18,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Display;
 import android.view.Gravity;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.Button;
 import android.widget.EditText;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.parse.ParseException;
@@ -33,7 +32,6 @@ import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
 import java.io.ByteArrayOutputStream;
-import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -47,6 +45,8 @@ public class BaseActivity extends AppCompatActivity implements FragmentDrawer.Fr
     String categoryId;
     String subcategoryId;
     String itemId;
+    Activity context;
+    RelativeLayout layoutLoading;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
