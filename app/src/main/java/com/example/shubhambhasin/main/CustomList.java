@@ -76,7 +76,8 @@ public class CustomList extends BaseAdapter{
             grid.setBackgroundColor(Color.rgb(255,255,255));
         }else
         {
-            grid.setBackgroundColor(Color.rgb(193, 193, 193));
+            grid.setBackgroundColor(Color.rgb(183, 183, 183));
+            textView.setTextColor(Color.WHITE);
         }
 
         return grid;

@@ -13,6 +13,12 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.GridView;
+<<<<<<< HEAD
+=======
+import android.widget.ImageView;
+import android.widget.ListAdapter;
+import android.widget.ListView;
+>>>>>>> a78e5baede71bcb01b8297cd8b7acb11f840d076
 import android.widget.RadioButton;
 import android.widget.RelativeLayout;
 import android.widget.SeekBar;
@@ -49,7 +55,10 @@ String subcategoryName;
     Button filterproductbutton;
     static int size;
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> a78e5baede71bcb01b8297cd8b7acb11f840d076
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -61,6 +70,9 @@ String subcategoryName;
             getSupportActionBar().setDisplayShowHomeEnabled(true);
             search_bar = (searchBar)getSupportFragmentManager().findFragmentById(R.id.searchfragment);
             search_bar.setUserName(ParseUser.getCurrentUser().getUsername());
+
+
+
             filterbutton=(Button)findViewById(R.id.filterbutton);
             final Intent subcategorySelected=getIntent();
             subcategoryId=subcategorySelected.getStringExtra("subcategoryId");
@@ -112,7 +124,7 @@ String subcategoryName;
                                     }
 
                                     ImageResizer ir = new ImageResizer();
-                                    Bitmap bitmap = ir.resizeImage(data, 200, 180);
+                                    Bitmap bitmap = ir.resizeImage(data, 180, 180);
                                     item_image.put(x, bitmap);
 
 
@@ -344,6 +356,7 @@ String subcategoryName;
                         for (int x = 0; x < itemobjects.size(); x++) {
                             ParseObject itemobject = itemobjects.get(x);
                             String brand = itemobject.getString(ItemTable.BRAND);
+
                             // Log.d("user","here");
                             if (brandfiltering) {
                                 for (int l = 0; l < size; l++) {
@@ -426,7 +439,9 @@ String subcategoryName;
                         });
 
                     } else {
+
                         Toast.makeText(getApplicationContext(), "No products according to filter", Toast.LENGTH_LONG).show();
+
                     }
                 } else {
                     Log.d("item", "exceptional error " + e);

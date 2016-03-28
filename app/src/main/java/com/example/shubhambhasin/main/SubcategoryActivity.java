@@ -30,9 +30,13 @@ public class SubcategoryActivity extends BaseActivity{
     private FragmentDrawer drawerFragment;
     ListView subcategories;
     searchBar search_bar;
+<<<<<<< HEAD
     popularhorizontallist popular;
     RelativeLayout layoutLoading;
     Activity context;
+=======
+
+>>>>>>> a78e5baede71bcb01b8297cd8b7acb11f840d076
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,9 +49,12 @@ public class SubcategoryActivity extends BaseActivity{
             getSupportActionBar().setDisplayShowHomeEnabled(true);
             getSupportActionBar().setTitle("Categories");
 
+<<<<<<< HEAD
             context= this;
 
             popular=(popularhorizontallist)getSupportFragmentManager().findFragmentById(R.id.popularfragment);
+=======
+>>>>>>> a78e5baede71bcb01b8297cd8b7acb11f840d076
             search_bar = (searchBar)getSupportFragmentManager().findFragmentById(R.id.searchfragment);
             search_bar.setUserName(ParseUser.getCurrentUser().getUsername());
 
@@ -63,7 +70,7 @@ public class SubcategoryActivity extends BaseActivity{
             drawerFragment.setUp(R.id.fragment_navigation_drawer, (DrawerLayout) findViewById(R.id.drawer_layout), mToolbar);//pass role
             drawerFragment.setDrawerListener(this);
 
-            
+
 
 
 

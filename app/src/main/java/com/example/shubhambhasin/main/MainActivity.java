@@ -68,7 +68,7 @@ public class MainActivity extends BaseActivity{
                     if (e == null) {
                         if (categoryobjects.size() != 0) {
 
-                            for (int x = 0; x < 5; x++) {
+                            for (int x = 0; x < 7; x++) {
                                 ParseObject categoryobject = categoryobjects.get(x);
 
                                 String name = categoryobject.getString(ItemTable.NAME);

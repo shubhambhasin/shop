@@ -224,8 +224,9 @@ totaltext=(TextView)findViewById(R.id.totaltext);
                                         @Override
                                         public void onClick(View v) {
                                             selectedcartitemobject.deleteEventually();
-                                            Reload();
                                             sleep(1000);
+                                            Reload();
+
                                             itemincartselected.dismiss();
                                         }
                                     });

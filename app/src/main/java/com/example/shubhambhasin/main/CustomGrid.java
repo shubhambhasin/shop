@@ -69,10 +69,12 @@ public class CustomGrid extends BaseAdapter{
             grid.setBackgroundColor(Color.rgb(255, 255, 255));
         }else if(position%4==1)
         {
-            grid.setBackgroundColor(Color.rgb(193,193,193));
+            grid.setBackgroundColor(Color.rgb(183,183,183));
+            textView.setTextColor(Color.WHITE);
         }else if(position%4==2)
         {
-            grid.setBackgroundColor(Color.rgb(193,193,193));
+            grid.setBackgroundColor(Color.rgb(183,183,183));
+            textView.setTextColor(Color.WHITE);
         }else
         {
             grid.setBackgroundColor(Color.rgb(255, 255, 255));
