@@ -118,7 +118,7 @@ String subcategoryName;
                                     }
 
                                     ImageResizer ir = new ImageResizer();
-                                    Bitmap bitmap = ir.resizeImage(data, 200, 180);
+                                    Bitmap bitmap = ir.resizeImage(data, 180, 180);
                                     item_image.put(x, bitmap);
 
 
