@@ -33,21 +33,6 @@
             android:layout_gravity="center_horizontal"
             tools:layout="@layout/fragment_search_bar" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="MOST POPULAR PRODUCTS"
-            android:id="@+id/textView8"
-            android:layout_gravity="center_horizontal" />
-
-        <fragment
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:name="com.example.shubhambhasin.main.popularhorizontallist"
-            android:id="@+id/popularfragment"
-            android:layout_gravity="center_horizontal"
-            tools:layout="@layout/fragment_popularhorizontallist" />
 
         <ListView xmlns:android="http://schemas.android.com/apk/res/android"
             android:id="@+id/listview"
