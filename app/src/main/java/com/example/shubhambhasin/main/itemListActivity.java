@@ -16,6 +16,7 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.GridView;
+import android.widget.ImageView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.RadioButton;
@@ -55,6 +56,7 @@ String subcategoryName;
     Model[] modelItems;
     Button filterproductbutton;
     static int size;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -66,6 +68,9 @@ String subcategoryName;
             getSupportActionBar().setDisplayShowHomeEnabled(true);
             search_bar = (searchBar)getSupportFragmentManager().findFragmentById(R.id.searchfragment);
             search_bar.setUserName(ParseUser.getCurrentUser().getUsername());
+
+
+
             filterbutton=(Button)findViewById(R.id.filterbutton);
             final Intent subcategorySelected=getIntent();
             subcategoryId=subcategorySelected.getStringExtra("subcategoryId");
@@ -343,6 +348,7 @@ String subcategoryName;
                         for (int x = 0; x < itemobjects.size(); x++) {
                             ParseObject itemobject = itemobjects.get(x);
                             String brand = itemobject.getString(ItemTable.BRAND);
+
                             // Log.d("user","here");
                             if (brandfiltering) {
                                 for (int l = 0; l < size; l++) {
@@ -425,7 +431,9 @@ String subcategoryName;
                         });
 
                     } else {
+
                         Toast.makeText(getApplicationContext(), "No products according to filter", Toast.LENGTH_LONG).show();
+
                     }
                 } else {
                     Log.d("item", "exceptional error " + e);
