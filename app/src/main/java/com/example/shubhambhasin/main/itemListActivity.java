@@ -13,12 +13,6 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.GridView;
-<<<<<<< HEAD
-=======
-import android.widget.ImageView;
-import android.widget.ListAdapter;
-import android.widget.ListView;
->>>>>>> a78e5baede71bcb01b8297cd8b7acb11f840d076
 import android.widget.RadioButton;
 import android.widget.RelativeLayout;
 import android.widget.SeekBar;
@@ -55,10 +49,7 @@ String subcategoryName;
     Button filterproductbutton;
     static int size;
 
-<<<<<<< HEAD
 
-=======
->>>>>>> a78e5baede71bcb01b8297cd8b7acb11f840d076
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
