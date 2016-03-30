@@ -92,7 +92,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceSmall"
-            android:text="Not A SmartEdu User?"
+            android:text="Not A ShopStore User?"
             android:id="@+id/noUser"
             android:layout_alignParentBottom="true"
 
