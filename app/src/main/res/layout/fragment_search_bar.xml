@@ -25,7 +25,7 @@
         android:layout_gravity="right|center_vertical"
         android:background="#ababab"
         android:textColor="#ffffff"
-        android:hint="search keywords..."
+        android:hint="search here and press ->..."
         android:textSize="15dp"
         />
     <ImageButton

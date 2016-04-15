@@ -29,4 +29,14 @@
         android:layout_marginTop="32dp"
         android:fontFamily="times new roman" />
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="by Shubham Bhasin"
+        android:id="@+id/textView9"
+        android:layout_below="@+id/textView3"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="42dp" />
+
 </RelativeLayout>

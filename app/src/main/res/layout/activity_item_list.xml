@@ -51,7 +51,7 @@
         <Button
             android:layout_width="match_parent"
             android:layout_height="33dp"
-            android:text="Filters"
+            android:text="click here for Filters"
             android:id="@+id/filterbutton"
             android:layout_gravity="right"
             android:background="#323b43"
